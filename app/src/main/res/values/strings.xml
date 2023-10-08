@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">DoSoptTemplate</string>
+    <string name="sopt_title">Welcome to SOPT</string>
+    <string name="id">ID</string>
+    <string name="pwd">비밀번호</string>
+    <string name="nickname">닉네임</string>
+    <string name="mbti">MBTI</string>
+    <string name="input_id">아이디를 입력해주세요</string>
+    <string name="input_pwd">비밀번호를 입력해주세요</string>
+    <string name="input_nickname">닉네임을 입력해주세요</string>
+    <string name="input_mbti">MBTI를 입력해주세요</string>
+    <string name="do_login">로그인 하기</string>
+    <string name="do_sign_up">회원가입 하기</string>
+    <string name="sign_up">회원가입</string>
+    <string name="my_page">마이페이지</string>
+    <string name="profile_image_description">내 프로필 이미지</string>
+    <string name="success_login">로그인 성공</string>
+    <string name="fail_login">로그인 실패</string>
+    <string name="success_sign_up">회원가입 성공</string>
+    <string name="fail_sign_up">회원가입 실패</string>
+    <string name="profile_name">헬스의 신</string>
+    <string name="profile_description">저는 스쿼트를 좋아하는데요? 어쩌라구요</string>
 </resources>
