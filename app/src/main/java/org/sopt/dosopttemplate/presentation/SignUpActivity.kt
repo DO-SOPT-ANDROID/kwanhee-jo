@@ -21,7 +21,11 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
                 binding.soptEvMbti.getEditText().toMBTI()
             )
 
-            if (isSuccessID(user.id) && isSuccessPassword(user.password) && isSuccessNickname(user.nickname) && isSuccessMBTI(
+            if (checkLength(user.id, 6, 10) && checkLength(
+                    user.password,
+                    8,
+                    12
+                ) && isSuccessNickname(user.nickname) && isSuccessMBTI(
                     user.mbti
                 )
             ) {
@@ -35,11 +39,8 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
         }
     }
 
-    private fun isSuccessID(id: String): Boolean =
-        id.length in 6..10
-
-    private fun isSuccessPassword(password: String): Boolean =
-        password.length in 8..12
+    private fun checkLength(contents: String, min: Int, max: Int): Boolean =
+        contents.length in min..max
 
     private fun isSuccessNickname(nickname: String): Boolean =
         nickname.isNotEmpty()
