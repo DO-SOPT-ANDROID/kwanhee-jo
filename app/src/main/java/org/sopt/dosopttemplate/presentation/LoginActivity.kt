@@ -9,18 +9,15 @@ import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivityLoginBinding
 import org.sopt.dosopttemplate.model.User
+import org.sopt.dosopttemplate.util.getParcelableData
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
     private var user: User? = null
 
-    private val resultActivity =
+    private val startActivityForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
-                user = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    it.data?.getParcelableExtra("user", User::class.java)
-                } else {
-                    it.data?.getParcelableExtra("user")
-                }
+                user = it.data?.getParcelableData("user", User::class.java)
             }
         }
 
@@ -35,7 +32,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
                 val intent = Intent(this, MainActivity::class.java).apply {
                     putExtra("user", user)
                 }
-                resultActivity.launch(intent)
+                startActivityForResult.launch(intent)
                 finish()
             } else {
                 Toast.makeText(this, getString(R.string.fail_login), Toast.LENGTH_SHORT).show()
@@ -43,7 +40,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         }
         binding.btSignUp.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
-            resultActivity.launch(intent)
+            startActivityForResult.launch(intent)
         }
     }
 }
