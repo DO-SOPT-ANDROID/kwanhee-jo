@@ -17,7 +17,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     private val startActivityForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
-                user = it.data?.getParcelableData("user", User::class.java)
+                user = it.data?.getParcelableData(EXTRA_USER, User::class.java)
             }
         }
 
@@ -30,7 +30,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
             if (binding.soptEvId.getEditText() == user?.id && binding.soptEvPwd.getEditText() == user?.password) {
                 Toast.makeText(this, getString(R.string.success_login), Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java).apply {
-                    putExtra("user", user)
+                    putExtra(EXTRA_USER, user)
                 }
                 startActivityForResult.launch(intent)
                 finish()
@@ -42,5 +42,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
             val intent = Intent(this, SignUpActivity::class.java)
             startActivityForResult.launch(intent)
         }
+    }
+
+    companion object {
+        const val EXTRA_USER = "user"
     }
 }
