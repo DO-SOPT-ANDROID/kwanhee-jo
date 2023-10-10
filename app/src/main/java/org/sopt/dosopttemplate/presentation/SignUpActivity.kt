@@ -1,5 +1,6 @@
 package org.sopt.dosopttemplate.presentation
 
+import android.widget.Toast
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivitySignUpBinding
@@ -15,6 +16,10 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
     }
 
     override fun initEvent() {
+        initDoSignUp()
+    }
+
+    private fun initDoSignUp() {
         binding.btSignUp.setOnClickListener {
             val user = User(
                 binding.soptEvId.getEditText(),
@@ -23,22 +28,25 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
                 binding.soptEvMbti.getEditText().toMBTI()
             )
 
-            if (checkLength(user.id, 6, 10) && checkLength(
-                    user.password,
-                    8,
-                    12
-                ) && isSuccessNickname(user.nickname) && isSuccessMBTI(
-                    user.mbti
-                )
+            if (checkLength(user.id, 6, 10) && checkLength(user.password, 8, 12) &&
+                isSuccessNickname(user.nickname) && isSuccessMBTI(user.mbti)
             ) {
-                binding.root.showShortSnackBar(getString(R.string.success_sign_up))
-                intent.putExtra(EXTRA_USER, user)
-                setResult(RESULT_OK, intent)
-                finish()
+                successSignUp(user)
             } else {
-                binding.root.showShortSnackBar(getString(R.string.fail_sign_up))
+                failSignUp()
             }
         }
+    }
+
+    private fun successSignUp(user: User) {
+        binding.root.showShortSnackBar(getString(R.string.success_sign_up))
+        intent.putExtra(EXTRA_USER, user)
+        setResult(RESULT_OK, intent)
+        finish()
+    }
+
+    private fun failSignUp() {
+        binding.root.showShortSnackBar(getString(R.string.fail_sign_up))
     }
 
     private fun checkLength(contents: String, min: Int, max: Int): Boolean =

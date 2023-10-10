@@ -26,23 +26,52 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     }
 
     override fun initEvent() {
+        initLogin()
+        initSignUp()
+    }
+
+    private fun initLogin() {
         binding.btLogin.setOnClickListener {
-            if (binding.soptEvId.getEditText() == user?.id && binding.soptEvPwd.getEditText() == user?.password) {
-                Toast.makeText(this, getString(R.string.success_login), Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, MainActivity::class.java).apply {
-                    putExtra(EXTRA_USER, user)
-                }
-                startActivityForResult.launch(intent)
-                finish()
-            } else {
-                Toast.makeText(this, getString(R.string.fail_login), Toast.LENGTH_SHORT).show()
-            }
-        }
-        binding.btSignUp.setOnClickListener {
-            val intent = Intent(this, SignUpActivity::class.java)
-            startActivityForResult.launch(intent)
+            checkLoginInfo(binding.soptEvId.getEditText(), binding.soptEvPwd.getEditText())
         }
     }
+
+    private fun initSignUp() {
+        binding.btSignUp.setOnClickListener {
+            goToSignUpActivity()
+        }
+    }
+
+    private fun checkLoginInfo(id: String, pwd: String) {
+        if (id == user?.id && pwd == user?.password) {
+            successLogin()
+        } else {
+            failLogin()
+        }
+    }
+
+    private fun successLogin() {
+        Toast.makeText(this, getString(R.string.success_login), Toast.LENGTH_SHORT).show()
+        goToMainActivity()
+        finish()
+    }
+
+    private fun failLogin() {
+        Toast.makeText(this, getString(R.string.fail_login), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun goToMainActivity() {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            putExtra(EXTRA_USER, user)
+        }
+        startActivityForResult.launch(intent)
+    }
+
+    private fun goToSignUpActivity() {
+        val intent = Intent(this, SignUpActivity::class.java)
+        startActivityForResult.launch(intent)
+    }
+
 
     companion object {
         const val EXTRA_USER = "user"
