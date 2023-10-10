@@ -5,6 +5,7 @@ import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivitySignUpBinding
 import org.sopt.dosopttemplate.util.MBTI
 import org.sopt.dosopttemplate.model.User
+import org.sopt.dosopttemplate.presentation.LoginActivity.Companion.EXTRA_USER
 import org.sopt.dosopttemplate.util.showShortSnackBar
 import org.sopt.dosopttemplate.util.toMBTI
 
@@ -31,7 +32,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
                 )
             ) {
                 binding.root.showShortSnackBar(getString(R.string.success_sign_up))
-                intent.putExtra("user", user)
+                intent.putExtra(EXTRA_USER, user)
                 setResult(RESULT_OK, intent)
                 finish()
             } else {
