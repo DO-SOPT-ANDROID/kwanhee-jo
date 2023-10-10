@@ -20,8 +20,4 @@ abstract class BaseActivity<T : ViewBinding>(val bindingFactory: (LayoutInflater
 
     abstract fun initView()
     abstract fun initEvent()
-
-    fun showShortSnackBar(msg: String) {
-        Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT).show()
-    }
 }
