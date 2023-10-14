@@ -2,7 +2,7 @@
 
 ## 과제 링크 제출란
 
-ex) [1주차 도전 과제 노션 링크](https://council.busan.go.kr/council/freeboard/52658)
+[1주차 심화 과제 노션 링크](https://atom-feet-3b2.notion.site/1-881e73cdd74c486dbd77a85c9c97fbb0?pvs=4)
 
 ## 템플릿 설명
 레포지터리에는 하나의 브랜치가 있습니다.
