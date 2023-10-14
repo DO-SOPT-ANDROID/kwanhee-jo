@@ -1,8 +1,13 @@
 package org.sopt.dosopttemplate.presentation
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
+import android.os.PersistableBundle
 import android.text.InputType
+import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import org.sopt.dosopttemplate.R
@@ -10,6 +15,7 @@ import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivityLoginBinding
 import org.sopt.dosopttemplate.model.User
 import org.sopt.dosopttemplate.util.getParcelableData
+import org.sopt.dosopttemplate.util.hideKeyboard
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
     private var user: User? = null
@@ -21,11 +27,27 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
             }
         }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString(ID, binding.soptEvId.getEditText())
+        outState.putString(PWD, binding.soptEvPwd.getEditText())
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        binding.soptEvId.setEditHintText(savedInstanceState.getString(ID) ?: "")
+        binding.soptEvPwd.setEditHintText(savedInstanceState.getString(PWD) ?: "")
+    }
+
     override fun initView() {
+        binding.soptEvId.setInputType(InputType.TYPE_CLASS_TEXT)
         binding.soptEvPwd.setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
     }
 
     override fun initEvent() {
+        binding.loginLayoutContainer.setOnClickListener {
+            hideKeyboard(binding.root)
+        }
         initLogin()
         initSignUp()
     }
@@ -75,5 +97,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
 
     companion object {
         const val EXTRA_USER = "user"
+        const val ID = "ID"
+        const val PWD = "PWD"
     }
 }

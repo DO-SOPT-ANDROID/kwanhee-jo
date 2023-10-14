@@ -3,6 +3,7 @@ package org.sopt.dosopttemplate.view
 import android.content.Context
 import android.text.InputType
 import android.util.AttributeSet
+import android.util.Log
 import androidx.constraintlayout.widget.ConstraintLayout
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.databinding.CustomEditViewBinding
@@ -47,6 +48,10 @@ class SoptEditView @JvmOverloads constructor(
 
     fun getEditText(): String {
         return binding.etContent.text.toString()
+    }
+
+    fun setEditHintText(text: String) {
+        binding.etContent.setText(text)
     }
 
     fun setInputType(inputType: Int) {
