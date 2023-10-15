@@ -20,4 +20,7 @@
     <string name="fail_sign_up">회원가입 실패</string>
     <string name="profile_name">헬스의 신</string>
     <string name="profile_description">저는 스쿼트를 좋아하는데요? 어쩌라구요</string>
+    <string name="logout">로그아웃</string>
+
+    <string name="preference_file_key">PREFERENCE_FILE_KEY</string>
 </resources>

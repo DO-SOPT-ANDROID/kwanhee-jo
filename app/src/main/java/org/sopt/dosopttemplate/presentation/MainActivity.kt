@@ -1,23 +1,30 @@
 package org.sopt.dosopttemplate.presentation
 
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivityMainBinding
-import org.sopt.dosopttemplate.model.User
-import org.sopt.dosopttemplate.presentation.LoginActivity.Companion.EXTRA_USER
-import org.sopt.dosopttemplate.util.getParcelableData
+import org.sopt.dosopttemplate.presentation.LoginActivity.Companion.ID
+import org.sopt.dosopttemplate.presentation.LoginActivity.Companion.MBTI
+import org.sopt.dosopttemplate.presentation.LoginActivity.Companion.NICKNAME
+import org.sopt.dosopttemplate.presentation.LoginActivity.Companion.getSharedPreferenceUser
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
+
     override fun initView() {
-        intent.getParcelableData(EXTRA_USER, User::class.java)?.let {
-            binding.tvProfileNickname.text = it.nickname
-            binding.tvIdContent.text = it.id
-            binding.tvMbtiContent.text = it.mbti.toString()
+        with(getSharedPreferenceUser()) {
+            binding.tvIdContent.text = getString(ID, "")
+            binding.tvProfileNickname.text = getString(NICKNAME, "")
+            binding.tvMbtiContent.text = getString(MBTI, "")
         }
     }
 
-    override fun initEvent() {}
+    override fun initEvent() {
+        logout()
+    }
+
+    private fun logout() {
+        binding.btnLogout.setOnClickListener {
+            getSharedPreferenceUser().edit().clear().apply()
+            finish()
+        }
+    }
 }
