@@ -100,7 +100,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     private fun successLogin() {
         Toast.makeText(this, getString(R.string.success_login), Toast.LENGTH_SHORT).show()
         goToMainActivity()
-        finish()
     }
 
     private fun failLogin() {
@@ -110,6 +109,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     private fun goToMainActivity() {
         val intent = Intent(this, MainActivity::class.java).apply {
             putExtra(EXTRA_USER, user)
+            addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
         }
         startActivityForResult.launch(intent)
     }
