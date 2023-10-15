@@ -42,14 +42,31 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     override fun initView() {
         binding.soptEvId.setInputType(InputType.TYPE_CLASS_TEXT)
         binding.soptEvPwd.setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
+        autoLogin()
+    }
+
+    private fun autoLogin() {
+        with(getPreferences(MODE_PRIVATE)) {
+            getString(ID, "")?.let { id ->
+                getString(PWD, "")?.let { pwd ->
+                    if (id.isNotEmpty() && pwd.isNotEmpty()) {
+                        successLogin()
+                    }
+                }
+            }
+        }
     }
 
     override fun initEvent() {
+        initHideKeyboard()
+        initLogin()
+        initSignUp()
+    }
+
+    private fun initHideKeyboard() {
         binding.loginLayoutContainer.setOnClickListener {
             hideKeyboard(binding.root)
         }
-        initLogin()
-        initSignUp()
     }
 
     private fun initLogin() {
@@ -66,12 +83,20 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
 
     private fun checkLoginInfo(id: String, pwd: String) {
         if (id == user?.id && pwd == user?.password) {
+            saveSharedFile(id, pwd)
             successLogin()
         } else {
             failLogin()
         }
     }
 
+    private fun saveSharedFile(id: String, pwd: String) {
+        with (getPreferences(Context.MODE_PRIVATE).edit()) {
+            putString(ID, id)
+            putString(PWD, pwd)
+            apply()
+        }
+    }
     private fun successLogin() {
         Toast.makeText(this, getString(R.string.success_login), Toast.LENGTH_SHORT).show()
         goToMainActivity()
