@@ -11,6 +11,7 @@ import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivityLoginBinding
 import org.sopt.dosopttemplate.model.User
+import org.sopt.dosopttemplate.presentation.home.HomeActivity
 import org.sopt.dosopttemplate.util.getParcelableData
 import org.sopt.dosopttemplate.util.hideKeyboard
 import org.sopt.dosopttemplate.util.showShortToastMessage
@@ -108,7 +109,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     }
 
     private fun goToMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, HomeActivity::class.java)
         startActivityForResult.launch(intent)
         finish()
     }
