@@ -59,7 +59,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     private fun autoLogin() {
         getSharedPreferenceUser().run {
             if (getBoolean(AUTO_LOGIN, false)) {
-                successLogin()
+                goToMainActivity()
             }
         }
     }

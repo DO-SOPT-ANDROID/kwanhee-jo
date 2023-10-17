@@ -5,6 +5,7 @@ import androidx.activity.OnBackPressedCallback
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivityMainBinding
+import org.sopt.dosopttemplate.presentation.LoginActivity.Companion.AUTO_LOGIN
 import org.sopt.dosopttemplate.presentation.LoginActivity.Companion.ID
 import org.sopt.dosopttemplate.presentation.LoginActivity.Companion.MBTI
 import org.sopt.dosopttemplate.presentation.LoginActivity.Companion.NICKNAME
@@ -47,7 +48,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     private fun logout() {
         binding.btnLogout.setOnClickListener {
-            getSharedPreferenceUser().edit().clear().apply()
+            getSharedPreferenceUser().edit().putBoolean(AUTO_LOGIN, false).apply()
             finish()
         }
     }
