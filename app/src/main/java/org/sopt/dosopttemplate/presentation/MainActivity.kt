@@ -9,6 +9,7 @@ import org.sopt.dosopttemplate.presentation.LoginActivity.Companion.ID
 import org.sopt.dosopttemplate.presentation.LoginActivity.Companion.MBTI
 import org.sopt.dosopttemplate.presentation.LoginActivity.Companion.NICKNAME
 import org.sopt.dosopttemplate.presentation.LoginActivity.Companion.getSharedPreferenceUser
+import org.sopt.dosopttemplate.util.showShortToastMessage
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
     private var backPressedTime = 0L
@@ -36,11 +37,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             override fun handleOnBackPressed() {
                 if (System.currentTimeMillis() - backPressedTime >= 2000L) {
                     backPressedTime = System.currentTimeMillis()
-                    Toast.makeText(
-                        this@MainActivity,
-                        getString(R.string.finish_dialog),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    this@MainActivity.showShortToastMessage(getString(R.string.finish_dialog))
                 } else {
                     finish()
                 }

@@ -13,6 +13,7 @@ import org.sopt.dosopttemplate.databinding.ActivityLoginBinding
 import org.sopt.dosopttemplate.model.User
 import org.sopt.dosopttemplate.util.getParcelableData
 import org.sopt.dosopttemplate.util.hideKeyboard
+import org.sopt.dosopttemplate.util.showShortToastMessage
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
     private var user: User? = null
@@ -99,12 +100,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
 
     private fun successLogin() {
         getSharedPreferenceUser().edit().putBoolean(AUTO_LOGIN, true).apply()
-        Toast.makeText(this, getString(R.string.success_login), Toast.LENGTH_SHORT).show()
+        showShortToastMessage(getString(R.string.success_login))
         goToMainActivity()
     }
 
     private fun failLogin() {
-        Toast.makeText(this, getString(R.string.fail_login), Toast.LENGTH_SHORT).show()
+        showShortToastMessage(getString(R.string.fail_login))
     }
 
     private fun goToMainActivity() {
