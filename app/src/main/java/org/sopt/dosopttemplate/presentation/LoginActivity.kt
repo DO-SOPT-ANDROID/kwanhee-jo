@@ -5,8 +5,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputType
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.edit
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivityLoginBinding
@@ -27,14 +27,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         }
 
     private fun saveSharedFile(user: User?) {
-        with(getSharedPreferenceUser().edit()) {
+        getSharedPreferenceUser().edit(commit = true) {
             user?.let {
                 putString(ID, it.id)
                 putString(PWD, it.password)
                 putString(NICKNAME, it.nickname)
                 putString(MBTI, it.mbti.toString())
             }
-            apply()
         }
     }
 
