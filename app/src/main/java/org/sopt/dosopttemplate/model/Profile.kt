@@ -5,12 +5,12 @@ import java.text.SimpleDateFormat
 data class Profile(
     val name: String,
     val description: String?,
-    val profileImage: String?,
+    val profileImage: Int?,
     val birth: Long,
     val update: Long,
     val music: Music?
-) {
-    fun checkBirthDay(pattern: String): Boolean = SimpleDateFormat(pattern).run {
+): HomeProfileModel() {
+    fun checkBirthDay(): Boolean = SimpleDateFormat("yyyy-MM-dd").run {
         format(System.currentTimeMillis()) == format(birth)
     }
 

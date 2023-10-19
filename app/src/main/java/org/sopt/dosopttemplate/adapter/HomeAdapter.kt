@@ -1,82 +1,75 @@
 package org.sopt.dosopttemplate.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.MultiTransformation
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.databinding.ItemProfileBinding
+import org.sopt.dosopttemplate.databinding.ItemProfileContentsBinding
+import org.sopt.dosopttemplate.databinding.ItemProfileHeaderBinding
+import org.sopt.dosopttemplate.model.HomeProfileModel
 import org.sopt.dosopttemplate.model.Profile
+import org.sopt.dosopttemplate.model.ProfileBirthday
+import org.sopt.dosopttemplate.model.ProfileHeader
 
-class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
-    private var profileList = emptyList<Profile>()
-
-    class ViewHolder(val binding: ItemProfileBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Profile) {
-            binding.tvUserName.text = item.name
-            binding.tvUserDescription.text = item.description
-            initProfileImage(item)
-            initUpdateStatus(item)
-            initMusicStatus(item)
-
-            if (item.checkBirthDay("yyyy-MM-dd")) {
-                binding.ivStatus.visibility = View.VISIBLE
-            }
-        }
-
-        private fun initMusicStatus(item: Profile) {
-            if (item.music != null) {
-                binding.tvStatusMessage.text = item.music.musicAlbumTitle()
-                binding.tvStatusMessage.visibility = View.VISIBLE
-            } else {
-                binding.tvStatusMessage.visibility = View.GONE
-            }
-        }
-
-        private fun initProfileImage(item: Profile) {
-            if (item.profileImage == null) {
-                Glide.with(binding.root)
-                    .load(R.drawable.kakao_profile)
-                    .override(150)
-                    .transform(MultiTransformation(CenterCrop(), RoundedCorners(50)))
-                    .into(binding.ivUser)
-            } else {
-                Glide.with(binding.root)
-                    .load(item.profileImage)
-                    .override(150)
-                    .transform(MultiTransformation(CenterCrop(), RoundedCorners(50)))
-                    .into(binding.ivUser)
-            }
-        }
-
-        private fun initUpdateStatus(item: Profile) {
-            binding.ivUpdateDot.isVisible = item.currentUpdateProfile()
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            ItemProfileBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
+class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private var profileList = emptyList<HomeProfileModel>()
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_HEADER -> HomeHeaderViewHolder(
+                ItemProfileHeaderBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent, false
+                )
             )
-        )
+
+            VIEW_TYPE_BIRTHDAY -> HomeContentsViewHolder(
+                ItemProfileContentsBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent, false
+                )
+            )
+
+            else -> HomeViewHolder(
+                ItemProfileBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent, false
+                )
+            )
+        }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(profileList[position])
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (getItemViewType(position)) {
+            VIEW_TYPE_HEADER ->
+                (holder as HomeHeaderViewHolder).bind(profileList[position] as ProfileHeader)
+
+            VIEW_TYPE_BIRTHDAY ->
+                (holder as HomeContentsViewHolder).bind(profileList[position] as ProfileBirthday)
+
+            VIEW_TYPE_PROFILE ->
+                (holder as HomeViewHolder).bind(profileList[position] as Profile)
+        }
     }
 
     override fun getItemCount(): Int = profileList.size
 
-    fun setProfileList(profileList: List<Profile>) {
+    override fun getItemViewType(position: Int): Int {
+        return when (profileList[position]) {
+            is ProfileHeader -> VIEW_TYPE_HEADER
+            is ProfileBirthday -> VIEW_TYPE_BIRTHDAY
+            is Profile -> VIEW_TYPE_PROFILE
+        }
+    }
+
+    fun setProfileList(profileList: List<HomeProfileModel>) {
         this.profileList = profileList.toList()
         notifyDataSetChanged()
+    }
+
+
+    companion object {
+        private const val VIEW_TYPE_HEADER = 0
+        private const val VIEW_TYPE_BIRTHDAY = 1
+        private const val VIEW_TYPE_PROFILE = 2
     }
 }
