@@ -1,13 +1,10 @@
 package org.sopt.dosopttemplate.adapter
 
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.MultiTransformation
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.databinding.ItemProfileHeaderBinding
 import org.sopt.dosopttemplate.model.ProfileHeader
+import org.sopt.dosopttemplate.util.roundedCornerGlide
 
 class HomeHeaderViewHolder(val binding: ItemProfileHeaderBinding) :
     RecyclerView.ViewHolder(binding.root) {
@@ -16,17 +13,9 @@ class HomeHeaderViewHolder(val binding: ItemProfileHeaderBinding) :
         binding.tvUserDescription.text = item.description
 
         if (item.profileImage == null) {
-            Glide.with(binding.root)
-                .load(R.drawable.kakao_profile)
-                .override(200)
-                .transform(MultiTransformation(CenterCrop(), RoundedCorners(50)))
-                .into(binding.ivUser)
+            binding.ivUser.roundedCornerGlide(binding.root, R.drawable.kakao_profile, 200, 50)
         } else {
-            Glide.with(binding.root)
-                .load(item.profileImage)
-                .override(200)
-                .transform(MultiTransformation(CenterCrop(), RoundedCorners(50)))
-                .into(binding.ivUser)
+            binding.ivUser.roundedCornerGlide(binding.root, item.profileImage, 200, 50)
         }
     }
 }
