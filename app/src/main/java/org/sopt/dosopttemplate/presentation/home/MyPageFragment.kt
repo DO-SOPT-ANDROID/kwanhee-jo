@@ -33,7 +33,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
 
     private fun logout() {
         binding.btnLogout.setOnClickListener {
-            activity?.apply {
+            activity?.run {
                 getSharedPreferenceUser().edit(commit = true) {
                     putBoolean(AUTO_LOGIN, false)
                 }
