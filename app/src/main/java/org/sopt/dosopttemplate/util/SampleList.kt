@@ -3,13 +3,11 @@ package org.sopt.dosopttemplate.util
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.model.HomeProfileModel
 import org.sopt.dosopttemplate.model.Music
-import org.sopt.dosopttemplate.model.Profile
-import org.sopt.dosopttemplate.model.ProfileHeader
 
 val sampleDeque = mutableListOf<HomeProfileModel>().apply {
-    add(ProfileHeader("조관희", "졸리다", R.drawable.jokwanhee))
+    add(HomeProfileModel.ProfileHeader("조관희", "졸리다", R.drawable.jokwanhee))
     add(
-        Profile(
+        HomeProfileModel.Profile(
             "SOPT YB 이상해씨",
             "이상해씨!!!",
             R.drawable.leaf1,
@@ -19,7 +17,7 @@ val sampleDeque = mutableListOf<HomeProfileModel>().apply {
         )
     )
     add(
-        Profile(
+        HomeProfileModel.Profile(
             "SOPT YB 이상해풀",
             "이상해풀!!!",
             R.drawable.leaf2,
@@ -29,7 +27,7 @@ val sampleDeque = mutableListOf<HomeProfileModel>().apply {
         )
     )
     add(
-        Profile(
+        HomeProfileModel.Profile(
             "SOPT YB 이상해꽃 이름이 길어진다 길어진다 길어진다",
             "이상해꽃 길어진다 길어진다 길어진다 길어진다 길어진다 길어진다",
             R.drawable.leaf3,
@@ -39,7 +37,7 @@ val sampleDeque = mutableListOf<HomeProfileModel>().apply {
         )
     )
     add(
-        Profile(
+        HomeProfileModel.Profile(
             "SOPT YB 파이리",
             "파이리",
             R.drawable.re1,
@@ -49,7 +47,7 @@ val sampleDeque = mutableListOf<HomeProfileModel>().apply {
         )
     )
     add(
-        Profile(
+        HomeProfileModel.Profile(
             "SOPT YB 리자드",
             "리자드",
             R.drawable.re2,
@@ -59,7 +57,7 @@ val sampleDeque = mutableListOf<HomeProfileModel>().apply {
         )
     )
     add(
-        Profile(
+        HomeProfileModel.Profile(
             "SOPT YB 리자몽",
             "리자몽",
             R.drawable.re3,
@@ -69,7 +67,7 @@ val sampleDeque = mutableListOf<HomeProfileModel>().apply {
         )
     )
     add(
-        Profile(
+        HomeProfileModel.Profile(
             "SOPT YB 꼬부기",
             "꼬부기",
             R.drawable.turtle,
@@ -79,7 +77,7 @@ val sampleDeque = mutableListOf<HomeProfileModel>().apply {
         )
     )
     add(
-        Profile(
+        HomeProfileModel.Profile(
             "SOPT YB 어니부기",
             "어니부기",
             R.drawable.turtlemiddle,
@@ -89,7 +87,7 @@ val sampleDeque = mutableListOf<HomeProfileModel>().apply {
         )
     )
     add(
-        Profile(
+        HomeProfileModel.Profile(
             "SOPT YB 거북왕",
             "거북왕",
             R.drawable.turtleking,
@@ -99,7 +97,7 @@ val sampleDeque = mutableListOf<HomeProfileModel>().apply {
         )
     )
     add(
-        Profile(
+        HomeProfileModel.Profile(
             "SOPT YB 피카츄",
             "피카츄",
             R.drawable.pickchu,
@@ -109,7 +107,7 @@ val sampleDeque = mutableListOf<HomeProfileModel>().apply {
         )
     )
     add(
-        Profile(
+        HomeProfileModel.Profile(
             "SOPT YB 라이츄",
             "라이츄",
             R.drawable.raichu,
@@ -119,7 +117,7 @@ val sampleDeque = mutableListOf<HomeProfileModel>().apply {
         )
     )
     add(
-        Profile(
+        HomeProfileModel.Profile(
             "이름이 길면 어떨까???? 어떨까???? 어떨까????",
             "글씨가 길면 어떨까? 어떨까? 어떨까? 어떨까? 어떨까? 어떨까? 어떨까?",
             null,

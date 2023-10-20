@@ -7,15 +7,14 @@ import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.adapter.HomeAdapter
 import org.sopt.dosopttemplate.base.BaseFragment
 import org.sopt.dosopttemplate.databinding.FragmentHomeBinding
-import org.sopt.dosopttemplate.model.Profile
-import org.sopt.dosopttemplate.model.ProfileBirthday
+import org.sopt.dosopttemplate.model.HomeProfileModel
 import org.sopt.dosopttemplate.util.sampleDeque
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_home
     private lateinit var homeAdapter: HomeAdapter
-    private var birthdayDeque = ArrayDeque<ProfileBirthday>()
+    private var birthdayDeque = ArrayDeque<HomeProfileModel.ProfileBirthday>()
     private var homeSampleDeque = sampleDeque.toMutableList()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,9 +34,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun initList() {
         if (birthdayDeque.isEmpty()) {
             homeSampleDeque.forEach {
-                if (it is Profile && it.checkBirthDay()) {
+                if (it is HomeProfileModel.Profile && it.checkBirthDay()) {
                     birthdayDeque.apply {
-                        add(ProfileBirthday(it.name, it.description, it.profileImage))
+                        add(
+                            HomeProfileModel.ProfileBirthday(
+                                it.name,
+                                it.description,
+                                it.profileImage
+                            )
+                        )
                     }
                 }
             }
