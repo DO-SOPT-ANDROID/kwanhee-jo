@@ -24,8 +24,8 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
     }
 
     private fun initMyData() {
-        with(activity?.getSharedPreferenceUser()) {
-            binding.tvIdContent.text = this?.getString(ID, "") ?: return@with
+        activity?.getSharedPreferenceUser()?.run {
+            binding.tvIdContent.text = this.getString(ID, "")
             binding.tvProfileNickname.text = this.getString(NICKNAME, "")
             binding.tvMbtiContent.text = this.getString(MBTI, "")
         }
