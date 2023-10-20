@@ -6,7 +6,7 @@ import org.sopt.dosopttemplate.model.Music
 import org.sopt.dosopttemplate.model.Profile
 import org.sopt.dosopttemplate.model.ProfileHeader
 
-val sampleDeque = ArrayDeque<HomeProfileModel>().apply {
+val sampleDeque = mutableListOf<HomeProfileModel>().apply {
     add(ProfileHeader("조관희", "졸리다", R.drawable.jokwanhee))
     add(
         Profile(

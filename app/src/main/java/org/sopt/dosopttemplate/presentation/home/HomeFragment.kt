@@ -16,26 +16,29 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         get() = R.layout.fragment_home
     private lateinit var homeAdapter: HomeAdapter
     private var birthdayDeque = ArrayDeque<ProfileBirthday>()
+    private var homeSampleDeque = sampleDeque.toMutableList()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initHomeAdapter()
         initList()
         setBirthdayContent()
-        homeAdapter.setProfileList(sampleDeque.toList())
+        homeAdapter.setProfileList(homeSampleDeque.toList())
     }
 
     private fun setBirthdayContent() {
         birthdayDeque.forEach {
-            sampleDeque.add(1, it)
+            homeSampleDeque.add(1, it)
         }
     }
 
     private fun initList() {
-        sampleDeque.forEach {
-            if (it is Profile && it.checkBirthDay()) {
-                birthdayDeque.apply {
-                    add(ProfileBirthday(it.name, it.description, it.profileImage))
+        if (birthdayDeque.isEmpty()) {
+            homeSampleDeque.forEach {
+                if (it is Profile && it.checkBirthDay()) {
+                    birthdayDeque.apply {
+                        add(ProfileBirthday(it.name, it.description, it.profileImage))
+                    }
                 }
             }
         }
