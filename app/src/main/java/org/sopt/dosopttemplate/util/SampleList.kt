@@ -13,12 +13,21 @@ val sampleDeque = ArrayDeque<HomeProfileModel>().apply {
             "SOPT YB 이상해씨",
             "이상해씨!!!",
             R.drawable.leaf1,
-            1697565421000,
+            System.currentTimeMillis(),
             1697565421000,
             Music("야생화", "박효신")
         )
     )
-    add(Profile("SOPT YB 이상해풀", "이상해풀!!!", R.drawable.leaf2, 0, 1696565421000, null))
+    add(
+        Profile(
+            "SOPT YB 이상해풀",
+            "이상해풀!!!",
+            R.drawable.leaf2,
+            System.currentTimeMillis(),
+            1696565421000,
+            null
+        )
+    )
     add(
         Profile(
             "SOPT YB 이상해꽃 이름이 길어진다 길어진다 길어진다",
@@ -29,8 +38,26 @@ val sampleDeque = ArrayDeque<HomeProfileModel>().apply {
             Music("대장", "박효신")
         )
     )
-    add(Profile("SOPT YB 파이리", "파이리", R.drawable.re1, 1697610124000, 1697565421000, null))
-    add(Profile("SOPT YB 리자드", "리자드", R.drawable.re2, 0, 1697565421000, null))
+    add(
+        Profile(
+            "SOPT YB 파이리",
+            "파이리",
+            R.drawable.re1,
+            1697610124000,
+            1697565421000,
+            null
+        )
+    )
+    add(
+        Profile(
+            "SOPT YB 리자드",
+            "리자드",
+            R.drawable.re2,
+            System.currentTimeMillis(),
+            1697565421000,
+            null
+        )
+    )
     add(
         Profile(
             "SOPT YB 리자몽",
@@ -46,7 +73,7 @@ val sampleDeque = ArrayDeque<HomeProfileModel>().apply {
             "SOPT YB 꼬부기",
             "꼬부기",
             R.drawable.turtle,
-            1697695757000,
+            System.currentTimeMillis(),
             1697695757000,
             Music("몰라", "박효신")
         )

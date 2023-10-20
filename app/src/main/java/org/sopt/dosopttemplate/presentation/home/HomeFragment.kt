@@ -7,11 +7,8 @@ import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.adapter.HomeAdapter
 import org.sopt.dosopttemplate.base.BaseFragment
 import org.sopt.dosopttemplate.databinding.FragmentHomeBinding
-import org.sopt.dosopttemplate.model.HomeProfileModel
-import org.sopt.dosopttemplate.model.Music
 import org.sopt.dosopttemplate.model.Profile
 import org.sopt.dosopttemplate.model.ProfileBirthday
-import org.sopt.dosopttemplate.model.ProfileHeader
 import org.sopt.dosopttemplate.util.sampleDeque
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
