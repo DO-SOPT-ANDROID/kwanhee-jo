@@ -39,7 +39,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setHomeProfileList() {
-        homeAdapter.setProfileList(homeSampleDeque.toList())
+        homeAdapter.submitList(homeSampleDeque.toList())
     }
 
     private fun setBirthdayContent() {
@@ -57,7 +57,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                             HomeProfileModel.ProfileBirthday(
                                 it.name,
                                 it.description,
-                                it.profileImage
+                                it.profileImage,
+                                it.update
                             )
                         )
                     }

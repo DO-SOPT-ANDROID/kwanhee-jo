@@ -12,7 +12,7 @@ val sampleDeque = mutableListOf<HomeProfileModel>().apply {
             "이상해씨!!!",
             R.drawable.leaf1,
             System.currentTimeMillis(),
-            1697565421000,
+            System.currentTimeMillis(),
             Music("야생화", "박효신")
         )
     )
@@ -22,7 +22,7 @@ val sampleDeque = mutableListOf<HomeProfileModel>().apply {
             "이상해풀!!!",
             R.drawable.leaf2,
             System.currentTimeMillis(),
-            1696565421000,
+            System.currentTimeMillis(),
             null
         )
     )
@@ -52,7 +52,7 @@ val sampleDeque = mutableListOf<HomeProfileModel>().apply {
             "리자드",
             R.drawable.re2,
             System.currentTimeMillis(),
-            1697565421000,
+            System.currentTimeMillis(),
             null
         )
     )
@@ -72,7 +72,7 @@ val sampleDeque = mutableListOf<HomeProfileModel>().apply {
             "꼬부기",
             R.drawable.turtle,
             System.currentTimeMillis(),
-            1697695757000,
+            System.currentTimeMillis(),
             Music("몰라", "박효신")
         )
     )
