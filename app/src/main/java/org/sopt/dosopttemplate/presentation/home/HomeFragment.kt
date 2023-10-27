@@ -2,18 +2,22 @@ package org.sopt.dosopttemplate.presentation.home
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.adapter.HomeAdapter
 import org.sopt.dosopttemplate.base.BaseFragment
 import org.sopt.dosopttemplate.databinding.FragmentHomeBinding
+import org.sopt.dosopttemplate.model.HomeBottomItem
 import org.sopt.dosopttemplate.model.HomeProfileModel
+import org.sopt.dosopttemplate.presentation.home.viewmodel.HomeViewModel
 import org.sopt.dosopttemplate.util.sampleDeque
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_home
     private lateinit var homeAdapter: HomeAdapter
+    private val viewModel: HomeViewModel by activityViewModels()
     private var birthdayDeque = ArrayDeque<HomeProfileModel.ProfileBirthday>()
     private var homeSampleDeque = sampleDeque.toMutableList()
 
@@ -22,6 +26,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         initHomeAdapter()
         initList()
         setBirthdayContent()
+        setHomeProfileList()
+        observeData()
+    }
+
+    private fun observeData() {
+        viewModel.bottomItemId.observe(viewLifecycleOwner) {
+            if (it == HomeBottomItem.HOME) {
+                binding.rvHome.scrollToPosition(0)
+            }
+        }
+    }
+
+    private fun setHomeProfileList() {
         homeAdapter.setProfileList(homeSampleDeque.toList())
     }
 

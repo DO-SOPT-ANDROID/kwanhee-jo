@@ -1,14 +1,18 @@
 package org.sopt.dosopttemplate.presentation.home
 
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivityHomeBinding
+import org.sopt.dosopttemplate.model.HomeBottomItem
+import org.sopt.dosopttemplate.presentation.home.viewmodel.HomeViewModel
 import org.sopt.dosopttemplate.util.showShortToastMessage
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
     private var backPressedTime = 0L
+    private val viewModel : HomeViewModel by viewModels()
 
     override fun initView() {
         initFragment()
@@ -25,6 +29,17 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
     override fun initEvent() {
         initBottomNavigationClick()
         initBackPressed()
+        initBottomNavigationReSelected()
+    }
+
+    private fun initBottomNavigationReSelected() {
+        binding.bottomNavigationView.setOnItemReselectedListener {
+            when (it.itemId) {
+                R.id.home -> viewModel.setBottomItemId(HomeBottomItem.HOME)
+                R.id.android -> viewModel.setBottomItemId(HomeBottomItem.ANDROID)
+                R.id.my_page -> viewModel.setBottomItemId(HomeBottomItem.MYPAGE)
+            }
+        }
     }
 
     private fun initBottomNavigationClick() {
