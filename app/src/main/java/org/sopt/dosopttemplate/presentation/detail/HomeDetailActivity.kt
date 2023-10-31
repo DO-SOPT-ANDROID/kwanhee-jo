@@ -42,5 +42,12 @@ class HomeDetailActivity :
 
 
     override fun initEvent() {
+        initBack()
+    }
+
+    private fun initBack() {
+        binding.ivBack.setOnClickListener {
+            finish()
+        }
     }
 }
