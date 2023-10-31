@@ -46,7 +46,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
                                 it.name,
                                 it.description,
                                 it.profileImage,
-                                it.update
+                                it.update,
+                                it.music
                             )
                         )
                     }

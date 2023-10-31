@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.load.model.stream.QMediaStoreUriLoader.InputStreamFactory
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.adapter.HomeAdapter
 import org.sopt.dosopttemplate.base.BaseFragment
@@ -46,7 +45,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun onClick(item: HomeProfileModel) {
-        // handle click item
         Intent(context, HomeDetailActivity::class.java).run {
             when (item) {
                 is HomeProfileModel.ProfileHeader -> {
@@ -54,17 +52,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     putExtra(PROFILE_DESCRIPTION, item.description)
                     putExtra(PROFILE_IMAGE, item.profileImage)
                 }
+
                 is HomeProfileModel.ProfileBirthday -> {
                     putExtra(PROFILE_NAME, item.name)
                     putExtra(PROFILE_DESCRIPTION, item.description)
                     putExtra(PROFILE_IMAGE, item.profileImage)
                     putExtra(PROFILE_BIRTH, true)
+                    putExtra(PROFILE_MUSIC, item.music?.musicAlbumTitle() ?: "")
                 }
+
                 is HomeProfileModel.Profile -> {
                     putExtra(PROFILE_NAME, item.name)
                     putExtra(PROFILE_DESCRIPTION, item.description)
                     putExtra(PROFILE_IMAGE, item.profileImage)
                     putExtra(PROFILE_BIRTH, item.checkBirthDay())
+                    putExtra(PROFILE_MUSIC, item.music?.musicAlbumTitle() ?: "")
                 }
             }
         }.also { startActivity(it) }
@@ -75,6 +77,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         const val PROFILE_DESCRIPTION = "PROFILE_DESCRIPTION"
         const val PROFILE_IMAGE = "PROFILE_IMAGE"
         const val PROFILE_BIRTH = "PROFILE_BIRTH"
+        const val PROFILE_MUSIC = "PROFILE_MUSIC"
 
         fun newInstance(): HomeFragment {
             return HomeFragment()

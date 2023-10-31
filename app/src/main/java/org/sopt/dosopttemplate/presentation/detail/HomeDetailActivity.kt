@@ -1,17 +1,13 @@
 package org.sopt.dosopttemplate.presentation.detail
 
-import android.util.Log
 import androidx.core.view.isVisible
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.MultiTransformation
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivityHomeDetailBinding
 import org.sopt.dosopttemplate.presentation.home.HomeFragment.Companion.PROFILE_BIRTH
 import org.sopt.dosopttemplate.presentation.home.HomeFragment.Companion.PROFILE_DESCRIPTION
 import org.sopt.dosopttemplate.presentation.home.HomeFragment.Companion.PROFILE_IMAGE
+import org.sopt.dosopttemplate.presentation.home.HomeFragment.Companion.PROFILE_MUSIC
 import org.sopt.dosopttemplate.presentation.home.HomeFragment.Companion.PROFILE_NAME
 import org.sopt.dosopttemplate.util.roundedCornerGlide
 
@@ -33,6 +29,12 @@ class HomeDetailActivity :
                     } else {
                         roundedCornerGlide(this, it, 400, 50)
                     }
+                }
+            }
+            getStringExtra(PROFILE_MUSIC).let {
+                with(binding.tvStatusMessage) {
+                    isVisible = !it.isNullOrEmpty()
+                    text = it
                 }
             }
         }
