@@ -31,6 +31,8 @@
             android:name=".presentation.home.HomeActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"/>
+        <activity android:name=".presentation.detail.HomeDetailActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>

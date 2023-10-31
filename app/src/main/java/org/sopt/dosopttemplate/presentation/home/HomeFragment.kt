@@ -9,6 +9,7 @@ import org.sopt.dosopttemplate.adapter.HomeAdapter
 import org.sopt.dosopttemplate.base.BaseFragment
 import org.sopt.dosopttemplate.databinding.FragmentHomeBinding
 import org.sopt.dosopttemplate.model.HomeBottomItem
+import org.sopt.dosopttemplate.model.HomeProfileModel
 import org.sopt.dosopttemplate.presentation.home.viewmodel.HomeViewModel
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -33,12 +34,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun initHomeAdapter() {
-        homeAdapter = HomeAdapter()
+        homeAdapter = HomeAdapter(::onClick)
         binding.rvHome.apply {
             adapter = homeAdapter
             layoutManager = LinearLayoutManager(context)
         }
         homeAdapter.submitList(homeViewModel.profileList.value)
+    }
+
+    private fun onClick(item: HomeProfileModel) {
+        // handle click item
     }
 
     companion object {

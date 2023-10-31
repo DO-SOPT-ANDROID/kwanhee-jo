@@ -11,28 +11,32 @@ import org.sopt.dosopttemplate.databinding.ItemProfileHeaderBinding
 import org.sopt.dosopttemplate.model.HomeProfileModel
 import org.sopt.dosopttemplate.model.HomeViewTypeModel
 
-class HomeAdapter : ListAdapter<HomeProfileModel, RecyclerView.ViewHolder>(diffUtil) {
+class HomeAdapter(private val onClick: (HomeProfileModel) -> Unit) :
+    ListAdapter<HomeProfileModel, RecyclerView.ViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             HomeViewTypeModel.Header.type -> HomeHeaderViewHolder(
-                ItemProfileHeaderBinding.inflate(
+                binding = ItemProfileHeaderBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent, false
-                )
+                ),
+                onClick = onClick
             )
 
             HomeViewTypeModel.Birthday.type -> HomeContentsViewHolder(
-                ItemProfileContentsBinding.inflate(
+                binding = ItemProfileContentsBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent, false
-                )
+                ),
+                onClick = onClick
             )
 
             else -> HomeViewHolder(
-                ItemProfileBinding.inflate(
+                binding = ItemProfileBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent, false
-                )
+                ),
+                onClick = onClick
             )
         }
     }
