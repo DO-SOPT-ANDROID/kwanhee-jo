@@ -28,4 +28,5 @@
     <string name="android">안드로이드</string>
     <string name="status_message">상태메시지</string>
     <string name="do_gift">선물하기</string>
+    <string name="conversation">대화하기</string>
 </resources>

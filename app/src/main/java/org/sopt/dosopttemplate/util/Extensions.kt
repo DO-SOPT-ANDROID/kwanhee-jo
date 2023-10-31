@@ -3,6 +3,10 @@ package org.sopt.dosopttemplate.util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -12,6 +16,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.snackbar.Snackbar
 
 fun View.showShortSnackBar(msg: String) {
@@ -40,5 +46,26 @@ fun ImageView.roundedCornerGlide(view: View, loadImage: Int, size: Int, radius: 
         .load(loadImage)
         .override(size)
         .transform(MultiTransformation(CenterCrop(), RoundedCorners(radius)))
-        .into(this)
+//        .into(this)
+        .into(object: CustomTarget<Drawable>() {
+            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                if (loadImage.toString().endsWith(".png")) {
+                    val bitmap = (resource as BitmapDrawable).bitmap
+                    val outBitmap = Bitmap.createBitmap(
+                        bitmap.width,
+                        bitmap.height,
+                        Bitmap.Config.ARGB_8888
+                    )
+                    val canvas = Canvas(outBitmap)
+                    canvas.drawColor(-0x1)
+                    canvas.drawBitmap(bitmap, 0f, 0f, null)
+                    setImageBitmap(outBitmap)
+                    return
+                }
+
+                setImageDrawable(resource)
+            }
+
+            override fun onLoadCleared(placeholder: Drawable?) {}
+        })
 }

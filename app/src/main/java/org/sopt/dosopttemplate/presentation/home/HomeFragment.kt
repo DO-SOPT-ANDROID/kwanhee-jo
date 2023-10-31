@@ -1,15 +1,18 @@
 package org.sopt.dosopttemplate.presentation.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.load.model.stream.QMediaStoreUriLoader.InputStreamFactory
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.adapter.HomeAdapter
 import org.sopt.dosopttemplate.base.BaseFragment
 import org.sopt.dosopttemplate.databinding.FragmentHomeBinding
 import org.sopt.dosopttemplate.model.HomeBottomItem
 import org.sopt.dosopttemplate.model.HomeProfileModel
+import org.sopt.dosopttemplate.presentation.detail.HomeDetailActivity
 import org.sopt.dosopttemplate.presentation.home.viewmodel.HomeViewModel
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -44,9 +47,35 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun onClick(item: HomeProfileModel) {
         // handle click item
+        Intent(context, HomeDetailActivity::class.java).run {
+            when (item) {
+                is HomeProfileModel.ProfileHeader -> {
+                    putExtra(PROFILE_NAME, item.name)
+                    putExtra(PROFILE_DESCRIPTION, item.description)
+                    putExtra(PROFILE_IMAGE, item.profileImage)
+                }
+                is HomeProfileModel.ProfileBirthday -> {
+                    putExtra(PROFILE_NAME, item.name)
+                    putExtra(PROFILE_DESCRIPTION, item.description)
+                    putExtra(PROFILE_IMAGE, item.profileImage)
+                    putExtra(PROFILE_BIRTH, true)
+                }
+                is HomeProfileModel.Profile -> {
+                    putExtra(PROFILE_NAME, item.name)
+                    putExtra(PROFILE_DESCRIPTION, item.description)
+                    putExtra(PROFILE_IMAGE, item.profileImage)
+                    putExtra(PROFILE_BIRTH, item.checkBirthDay())
+                }
+            }
+        }.also { startActivity(it) }
     }
 
     companion object {
+        const val PROFILE_NAME = "PROFILE_NAME"
+        const val PROFILE_DESCRIPTION = "PROFILE_DESCRIPTION"
+        const val PROFILE_IMAGE = "PROFILE_IMAGE"
+        const val PROFILE_BIRTH = "PROFILE_BIRTH"
+
         fun newInstance(): HomeFragment {
             return HomeFragment()
         }

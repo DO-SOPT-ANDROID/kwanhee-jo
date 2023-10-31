@@ -4,19 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_a3a3a3">
+    android:background="@color/color_788abf">
 
     <ImageView
         android:id="@+id/iv_detail_profile_birthday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:src="@drawable/happy_birthday"
         android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_height="50dp"
         tools:layout_width="50dp"
-        tools:src="@drawable/happy_birthday"
         tools:visibility="visible" />
 
 
@@ -38,6 +39,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingHorizontal="30dp"
         android:textColor="@color/white"
         android:textSize="28sp"
         android:textStyle="bold"
@@ -63,6 +67,7 @@
         tools:text="설명" />
 
     <View
+        android:id="@+id/divide_line"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginTop="16dp"
@@ -71,5 +76,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_detail_profile_description" />
 
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/ic_chat_ffffff_24"
+        android:text="@string/conversation"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divide_line" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
