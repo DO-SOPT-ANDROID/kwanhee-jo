@@ -10,7 +10,8 @@ import org.sopt.dosopttemplate.util.roundedCornerGlide
 
 class HomeContentsViewHolder(
     private val binding: ItemProfileContentsBinding,
-    private val onClick: (HomeProfileModel) -> Unit
+    private val onClick: (HomeProfileModel) -> Unit,
+    private val onLongClick: (Int) -> Unit
 ) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(item: HomeProfileModel.ProfileBirthday) {
@@ -26,6 +27,10 @@ class HomeContentsViewHolder(
 
         binding.root.setOnClickListener {
             onClick(item)
+        }
+        binding.root.setOnLongClickListener {
+            onLongClick(item.id)
+            false
         }
     }
 }

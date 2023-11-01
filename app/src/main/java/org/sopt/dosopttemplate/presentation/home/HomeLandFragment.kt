@@ -21,6 +21,7 @@ class HomeLandFragment : BaseFragment<FragmentHomeLandBinding>() {
         super.onViewCreated(view, savedInstanceState)
         initLandAdapter()
         initViewPagerIndicator()
+        observeData()
     }
 
     private fun initLandAdapter() {
@@ -36,6 +37,12 @@ class HomeLandFragment : BaseFragment<FragmentHomeLandBinding>() {
         ) { tab, position ->
             binding.vpLandscapeContainer.currentItem = tab.position
         }.attach()
+    }
+
+    private fun observeData() {
+        homeViewModel.profileList.observe(viewLifecycleOwner) {
+            homeLandAdapter.submitList(it)
+        }
     }
 
     companion object {

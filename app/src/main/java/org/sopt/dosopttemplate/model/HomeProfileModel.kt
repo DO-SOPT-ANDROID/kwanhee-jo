@@ -4,12 +4,14 @@ import java.text.SimpleDateFormat
 
 sealed class HomeProfileModel {
     data class ProfileHeader(
+        val id: Int,
         val name: String,
         val description: String?,
         val profileImage: Int?
     ) : HomeProfileModel()
 
     data class ProfileBirthday(
+        val id: Int,
         val name: String,
         val description: String?,
         val profileImage: Int?,
@@ -21,14 +23,15 @@ sealed class HomeProfileModel {
     }
 
     data class Profile(
+        val id: Int,
         val name: String,
-        val description: String?,
-        val profileImage: Int?,
+        val description: String? = null,
+        val profileImage: Int? = null,
         val birth: Long,
         val update: Long,
-        val music: Music?
+        val music: Music? = null
     ) : HomeProfileModel() {
-        fun checkBirthDay(): Boolean = SimpleDateFormat("yyyy-MM-dd").run {
+        fun checkBirthDay(): Boolean = SimpleDateFormat("MM-dd").run {
             format(System.currentTimeMillis()) == format(birth)
         }
 

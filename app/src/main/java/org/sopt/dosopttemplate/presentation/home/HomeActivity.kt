@@ -43,6 +43,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
                     birthdayDeque.apply {
                         add(
                             HomeProfileModel.ProfileBirthday(
+                                it.id,
                                 it.name,
                                 it.description,
                                 it.profileImage,

@@ -11,7 +11,10 @@ import org.sopt.dosopttemplate.databinding.ItemProfileHeaderBinding
 import org.sopt.dosopttemplate.model.HomeProfileModel
 import org.sopt.dosopttemplate.model.HomeViewTypeModel
 
-class HomeAdapter(private val onClick: (HomeProfileModel) -> Unit) :
+class HomeAdapter(
+    private val onClick: (HomeProfileModel) -> Unit,
+    private val onLongClick: (Int) -> Unit
+) :
     ListAdapter<HomeProfileModel, RecyclerView.ViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -20,7 +23,8 @@ class HomeAdapter(private val onClick: (HomeProfileModel) -> Unit) :
                     LayoutInflater.from(parent.context),
                     parent, false
                 ),
-                onClick = onClick
+                onClick = onClick,
+                onLongClick = onLongClick
             )
 
             HomeViewTypeModel.Birthday.type -> HomeContentsViewHolder(
@@ -28,7 +32,8 @@ class HomeAdapter(private val onClick: (HomeProfileModel) -> Unit) :
                     LayoutInflater.from(parent.context),
                     parent, false
                 ),
-                onClick = onClick
+                onClick = onClick,
+                onLongClick = onLongClick
             )
 
             else -> HomeViewHolder(
@@ -36,7 +41,8 @@ class HomeAdapter(private val onClick: (HomeProfileModel) -> Unit) :
                     LayoutInflater.from(parent.context),
                     parent, false
                 ),
-                onClick = onClick
+                onClick = onClick,
+                onLongClick = onLongClick
             )
         }
     }
