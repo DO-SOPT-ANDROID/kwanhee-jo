@@ -3,6 +3,7 @@
     <declare-styleable name="SoptEditView">
         <attr name="title" format="string"/>
         <attr name="editHint" format="string"/>
+        <attr name="android:textSize"/>
         <attr name="android:inputType"/>
     </declare-styleable>
 </resources>

@@ -8,13 +8,24 @@ import org.sopt.dosopttemplate.databinding.ItemProfileBinding
 import org.sopt.dosopttemplate.model.HomeProfileModel
 import org.sopt.dosopttemplate.util.roundedCornerGlide
 
-class HomeViewHolder(val binding: ItemProfileBinding) : RecyclerView.ViewHolder(binding.root) {
+class HomeViewHolder(
+    private val binding: ItemProfileBinding,
+    private val onClick: (HomeProfileModel) -> Unit,
+    private val onLongClick: (Int) -> Unit
+) : RecyclerView.ViewHolder(binding.root) {
     fun bind(item: HomeProfileModel.Profile) {
         binding.tvUserName.text = item.name
         binding.tvUserDescription.text = item.description
         initProfileImage(item)
         initUpdateStatus(item)
         initMusicStatus(item)
+        binding.root.setOnClickListener {
+            onClick(item)
+        }
+        binding.root.setOnLongClickListener {
+            onLongClick(item.id)
+            false
+        }
     }
 
     private fun initMusicStatus(item: HomeProfileModel.Profile) {

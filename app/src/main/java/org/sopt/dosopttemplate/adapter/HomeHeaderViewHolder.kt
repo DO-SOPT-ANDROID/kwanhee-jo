@@ -6,7 +6,11 @@ import org.sopt.dosopttemplate.databinding.ItemProfileHeaderBinding
 import org.sopt.dosopttemplate.model.HomeProfileModel
 import org.sopt.dosopttemplate.util.roundedCornerGlide
 
-class HomeHeaderViewHolder(val binding: ItemProfileHeaderBinding) :
+class HomeHeaderViewHolder(
+    private val binding: ItemProfileHeaderBinding,
+    private val onClick: (HomeProfileModel) -> Unit,
+    private val onLongClick: (Int) -> Unit
+) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(item: HomeProfileModel.ProfileHeader) {
         binding.tvUserName.text = item.name
@@ -16,6 +20,14 @@ class HomeHeaderViewHolder(val binding: ItemProfileHeaderBinding) :
             binding.ivUser.roundedCornerGlide(binding.root, R.drawable.kakao_profile, 200, 50)
         } else {
             binding.ivUser.roundedCornerGlide(binding.root, item.profileImage, 200, 50)
+        }
+
+        binding.root.setOnClickListener {
+            onClick(item)
+        }
+        binding.root.setOnLongClickListener {
+            onLongClick(item.id)
+            false
         }
     }
 }

@@ -1,9 +1,8 @@
 package org.sopt.dosopttemplate.view
 
 import android.content.Context
-import android.text.InputType
 import android.util.AttributeSet
-import android.util.Log
+import android.util.TypedValue
 import androidx.constraintlayout.widget.ConstraintLayout
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.databinding.CustomEditViewBinding
@@ -16,6 +15,7 @@ class SoptEditView @JvmOverloads constructor(
     private lateinit var binding: CustomEditViewBinding
     var title: String? = null
     var editHint: String? = null
+    var titleSize: Float? = null
 
     init {
         attributeSet?.let {
@@ -32,6 +32,10 @@ class SoptEditView @JvmOverloads constructor(
         ).apply {
             title = getString(R.styleable.SoptEditView_title)
             editHint = getString(R.styleable.SoptEditView_editHint)
+            titleSize = getDimension(
+                R.styleable.SoptEditView_android_textSize,
+                context.resources.getDimension(R.dimen.sp_14)
+            )
         }
     }
 
@@ -43,6 +47,9 @@ class SoptEditView @JvmOverloads constructor(
         }
         editHint?.let {
             binding.etContent.hint = it
+        }
+        titleSize?.let {
+            binding.tvTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, it)
         }
     }
 

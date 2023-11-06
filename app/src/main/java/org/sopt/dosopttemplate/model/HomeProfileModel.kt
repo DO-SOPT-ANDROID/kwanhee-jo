@@ -4,26 +4,34 @@ import java.text.SimpleDateFormat
 
 sealed class HomeProfileModel {
     data class ProfileHeader(
+        val id: Int,
         val name: String,
         val description: String?,
         val profileImage: Int?
-    ): HomeProfileModel()
+    ) : HomeProfileModel()
 
     data class ProfileBirthday(
-        val name: String,
-        val description: String?,
-        val profileImage: Int?
-    ): HomeProfileModel()
-
-    data class Profile(
+        val id: Int,
         val name: String,
         val description: String?,
         val profileImage: Int?,
-        val birth: Long,
         val update: Long,
         val music: Music?
-    ): HomeProfileModel() {
-        fun checkBirthDay(): Boolean = SimpleDateFormat("yyyy-MM-dd").run {
+    ) : HomeProfileModel() {
+        fun currentUpdateProfile(): Boolean =
+            System.currentTimeMillis() - update <= (1000 * 60 * 60 * 24)
+    }
+
+    data class Profile(
+        val id: Int,
+        val name: String,
+        val description: String? = null,
+        val profileImage: Int? = null,
+        val birth: Long,
+        val update: Long,
+        val music: Music? = null
+    ) : HomeProfileModel() {
+        fun checkBirthDay(): Boolean = SimpleDateFormat("MM-dd").run {
             format(System.currentTimeMillis()) == format(birth)
         }
 
