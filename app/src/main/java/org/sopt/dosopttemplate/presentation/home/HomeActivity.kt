@@ -12,6 +12,7 @@ import org.sopt.dosopttemplate.model.HomeProfileModel
 import org.sopt.dosopttemplate.presentation.home.viewmodel.HomeViewModel
 import org.sopt.dosopttemplate.util.sampleDeque
 import org.sopt.dosopttemplate.util.showShortToastMessage
+import org.sopt.dosopttemplate.util.toProfileBirth
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
     private var backPressedTime = 0L
@@ -40,18 +41,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
         if (birthdayDeque.isEmpty()) {
             homeSampleDeque.forEach {
                 if (it is HomeProfileModel.Profile && it.checkBirthDay()) {
-                    birthdayDeque.apply {
-                        add(
-                            HomeProfileModel.ProfileBirthday(
-                                it.id,
-                                it.name,
-                                it.description,
-                                it.profileImage,
-                                it.update,
-                                it.music
-                            )
-                        )
-                    }
+                    birthdayDeque.add(it.toProfileBirth())
                 }
             }
         }
