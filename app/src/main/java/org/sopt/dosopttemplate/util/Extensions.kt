@@ -46,26 +46,5 @@ fun ImageView.roundedCornerGlide(view: View, loadImage: Int, size: Int, radius: 
         .load(loadImage)
         .override(size)
         .transform(MultiTransformation(CenterCrop(), RoundedCorners(radius)))
-//        .into(this)
-        .into(object: CustomTarget<Drawable>() {
-            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                if (loadImage.toString().endsWith(".png")) {
-                    val bitmap = (resource as BitmapDrawable).bitmap
-                    val outBitmap = Bitmap.createBitmap(
-                        bitmap.width,
-                        bitmap.height,
-                        Bitmap.Config.ARGB_8888
-                    )
-                    val canvas = Canvas(outBitmap)
-                    canvas.drawColor(-0x1)
-                    canvas.drawBitmap(bitmap, 0f, 0f, null)
-                    setImageBitmap(outBitmap)
-                    return
-                }
-
-                setImageDrawable(resource)
-            }
-
-            override fun onLoadCleared(placeholder: Drawable?) {}
-        })
+        .into(this)
 }
