@@ -1,6 +1,6 @@
 package org.sopt.dosopttemplate.util
 
-import java.lang.IllegalArgumentException
+import org.sopt.dosopttemplate.model.HomeProfileModel
 
 fun String.toMBTI(): MBTI {
     return try {
@@ -9,3 +9,13 @@ fun String.toMBTI(): MBTI {
         return MBTI.ERROR
     }
 }
+
+fun HomeProfileModel.Profile.toProfileBirth(): HomeProfileModel.ProfileBirthday =
+    HomeProfileModel.ProfileBirthday(
+        id = this.id,
+        name = this.name,
+        description = this.description,
+        profileImage = this.profileImage,
+        update = this.update,
+        music = this.music
+    )

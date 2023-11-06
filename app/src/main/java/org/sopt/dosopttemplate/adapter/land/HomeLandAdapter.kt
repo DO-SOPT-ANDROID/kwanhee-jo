@@ -1,48 +1,38 @@
-package org.sopt.dosopttemplate.adapter
+package org.sopt.dosopttemplate.adapter.land
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import org.sopt.dosopttemplate.databinding.ItemProfileBinding
-import org.sopt.dosopttemplate.databinding.ItemProfileContentsBinding
-import org.sopt.dosopttemplate.databinding.ItemProfileHeaderBinding
+import org.sopt.dosopttemplate.databinding.ItemProfileContentsLandBinding
+import org.sopt.dosopttemplate.databinding.ItemProfileHeaderLandBinding
+import org.sopt.dosopttemplate.databinding.ItemProfileLandBinding
 import org.sopt.dosopttemplate.model.HomeProfileModel
 import org.sopt.dosopttemplate.model.HomeViewTypeModel
 
-class HomeAdapter(
-    private val onClick: (HomeProfileModel) -> Unit,
-    private val onLongClick: (Int) -> Unit
-) :
-    ListAdapter<HomeProfileModel, RecyclerView.ViewHolder>(diffUtil) {
+class HomeLandAdapter : ListAdapter<HomeProfileModel, RecyclerView.ViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            HomeViewTypeModel.Header.type -> HomeHeaderViewHolder(
-                binding = ItemProfileHeaderBinding.inflate(
+            HomeViewTypeModel.Header.type -> HomeLandHeaderViewHolder(
+                ItemProfileHeaderLandBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent, false
-                ),
-                onClick = onClick,
-                onLongClick = onLongClick
+                )
             )
 
-            HomeViewTypeModel.Birthday.type -> HomeContentsViewHolder(
-                binding = ItemProfileContentsBinding.inflate(
+            HomeViewTypeModel.Birthday.type -> HomeLandContentsViewHolder(
+                ItemProfileContentsLandBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent, false
-                ),
-                onClick = onClick,
-                onLongClick = onLongClick
+                )
             )
 
-            else -> HomeViewHolder(
-                binding = ItemProfileBinding.inflate(
+            else -> HomeLandViewHolder(
+                ItemProfileLandBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent, false
-                ),
-                onClick = onClick,
-                onLongClick = onLongClick
+                )
             )
         }
     }
@@ -50,13 +40,13 @@ class HomeAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             HomeViewTypeModel.Header.type ->
-                (holder as HomeHeaderViewHolder).bind(currentList[position] as HomeProfileModel.ProfileHeader)
+                (holder as HomeLandHeaderViewHolder).bind(currentList[position] as HomeProfileModel.ProfileHeader)
 
             HomeViewTypeModel.Birthday.type ->
-                (holder as HomeContentsViewHolder).bind(currentList[position] as HomeProfileModel.ProfileBirthday)
+                (holder as HomeLandContentsViewHolder).bind(currentList[position] as HomeProfileModel.ProfileBirthday)
 
             HomeViewTypeModel.Profile.type ->
-                (holder as HomeViewHolder).bind(currentList[position] as HomeProfileModel.Profile)
+                (holder as HomeLandViewHolder).bind(currentList[position] as HomeProfileModel.Profile)
         }
     }
 
