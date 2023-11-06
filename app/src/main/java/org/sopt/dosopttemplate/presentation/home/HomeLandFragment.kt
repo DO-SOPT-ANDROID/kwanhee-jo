@@ -45,6 +45,11 @@ class HomeLandFragment : BaseFragment<FragmentHomeLandBinding>() {
         }
     }
 
+    override fun onDestroyView() {
+        binding.vpLandscapeContainer.adapter = null
+        super.onDestroyView()
+    }
+
     companion object {
         fun newInstance(): HomeLandFragment = HomeLandFragment()
     }

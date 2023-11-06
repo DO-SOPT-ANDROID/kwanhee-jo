@@ -91,6 +91,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         HomeRemoveDialogFragment().show(parentFragmentManager, null)
     }
 
+    override fun onDestroyView() {
+        binding.rvHome.adapter = null
+        super.onDestroyView()
+    }
+
     companion object {
         const val PROFILE_NAME = "PROFILE_NAME"
         const val PROFILE_DESCRIPTION = "PROFILE_DESCRIPTION"
