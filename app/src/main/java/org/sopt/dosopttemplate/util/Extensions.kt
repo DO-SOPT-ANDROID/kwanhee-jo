@@ -3,10 +3,21 @@ package org.sopt.dosopttemplate.util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import android.widget.Toast
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.MultiTransformation
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.snackbar.Snackbar
 
 fun View.showShortSnackBar(msg: String) {
@@ -28,4 +39,12 @@ fun Activity.hideKeyboard(view: View) {
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
+}
+
+fun ImageView.roundedCornerGlide(view: View, loadImage: Int, size: Int, radius: Int) {
+    Glide.with(view)
+        .load(loadImage)
+        .override(size)
+        .transform(MultiTransformation(CenterCrop(), RoundedCorners(radius)))
+        .into(this)
 }
