@@ -1,4 +1,4 @@
-package org.sopt.dosopttemplate.presentation
+package org.sopt.dosopttemplate.presentation.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,9 +12,11 @@ import org.sopt.dosopttemplate.db.local.Preference.Companion.EXTRA_USER
 import org.sopt.dosopttemplate.db.local.Preference.Companion.ID
 import org.sopt.dosopttemplate.db.local.Preference.Companion.PWD
 import org.sopt.dosopttemplate.model.User
+import org.sopt.dosopttemplate.presentation.SignUpActivity
 import org.sopt.dosopttemplate.presentation.home.HomeActivity
 import org.sopt.dosopttemplate.util.getParcelableData
 import org.sopt.dosopttemplate.util.hideKeyboard
+import org.sopt.dosopttemplate.util.showShortSnackBar
 import org.sopt.dosopttemplate.util.showShortToastMessage
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
@@ -67,7 +69,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
 
     private fun initLogin() {
         binding.btLogin.setOnClickListener {
-            checkLoginInfo(binding.soptEvId.getEditText(), binding.soptEvPwd.getEditText())
+            if (binding.soptEvId.getEditText().isEmpty()) {
+                binding.soptEvId.showShortSnackBar(getString(R.string.input_id))
+            } else if (binding.soptEvPwd.getEditText().isEmpty()) {
+                binding.soptEvId.showShortSnackBar(getString(R.string.input_pwd))
+            } else {
+                checkLoginInfo(binding.soptEvId.getEditText(), binding.soptEvPwd.getEditText())
+            }
         }
     }
 
