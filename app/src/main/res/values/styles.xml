@@ -14,4 +14,9 @@
         <item name="counterEnabled">true</item>
         <item name="endIconMode">clear_text</item>
     </style>
+    <!--Material3 Switch Style-->
+    <style name="Widget.App.Switch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="thumbTint">@color/m3_switch_thumb</item>
+        <item name="trackTint">@color/m3_switch_track</item>
+    </style>
 </resources>

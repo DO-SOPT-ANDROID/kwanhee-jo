@@ -23,6 +23,7 @@
     <string name="fail_sign_up">회원가입 실패</string>
     <string name="profile_name">헬스의 신</string>
     <string name="profile_description">저는 스쿼트를 좋아하는데요? 어쩌라구요</string>
+    <string name="auto_login">자동로그인</string>
     <string name="logout">로그아웃</string>
     <string name="finish_dialog">\'뒤로\'버튼 한번 더 누르시면 종료됩니다.</string>
     <string name="year">년</string>

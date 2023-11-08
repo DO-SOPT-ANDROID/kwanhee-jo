@@ -3,6 +3,7 @@ package org.sopt.dosopttemplate.presentation.login
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
@@ -96,7 +97,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     }
 
     private fun successLogin() {
-        preference.setAutoLogin(true)
+        preference.setAutoLogin(binding.switchAutoLogin.isChecked)
         showShortToastMessage(getString(R.string.success_login))
         goToMainActivity()
     }
