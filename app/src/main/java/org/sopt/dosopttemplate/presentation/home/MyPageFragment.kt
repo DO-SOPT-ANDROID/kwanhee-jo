@@ -6,45 +6,37 @@ import androidx.core.content.edit
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseFragment
 import org.sopt.dosopttemplate.databinding.FragmentMypageBinding
-import org.sopt.dosopttemplate.presentation.LoginActivity.Companion.AUTO_LOGIN
-import org.sopt.dosopttemplate.presentation.LoginActivity.Companion.ID
-import org.sopt.dosopttemplate.presentation.LoginActivity.Companion.MBTI
-import org.sopt.dosopttemplate.presentation.LoginActivity.Companion.NICKNAME
-import org.sopt.dosopttemplate.presentation.LoginActivity.Companion.getSharedPreferenceUser
+import org.sopt.dosopttemplate.db.local.Preference
 
 class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_mypage
+    private val preference by lazy {
+        Preference(requireContext())
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initMyData()
         logout()
     }
 
     private fun initMyData() {
-        activity?.getSharedPreferenceUser()?.run {
-            binding.tvIdContent.text = this.getString(ID, "")
-            binding.tvProfileNickname.text = this.getString(NICKNAME, "")
-            binding.tvMbtiContent.text = this.getString(MBTI, "")
+        preference.run {
+            binding.tvIdContent.text = getId()
+            binding.tvProfileNickname.text = getNickname()
+            binding.tvMbtiContent.text = getMBTI()
         }
     }
 
     private fun logout() {
         binding.btnLogout.setOnClickListener {
-            activity?.run {
-                getSharedPreferenceUser().edit(commit = true) {
-                    putBoolean(AUTO_LOGIN, false)
-                }
-                finish()
-            }
+            preference.setAutoLogin(false)
+            activity?.finish()
         }
     }
 
     companion object {
-        fun newInstance(): MyPageFragment {
-            return MyPageFragment()
-        }
+        fun newInstance(): MyPageFragment = MyPageFragment()
     }
 }
