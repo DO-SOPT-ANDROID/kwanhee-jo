@@ -24,7 +24,7 @@
                     android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="12dp"
                     android:text="@string/add_friend"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -32,50 +32,88 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <org.sopt.dosopttemplate.view.SoptEditView
-                    android:id="@+id/sopt_ev_nickname"
-                    android:layout_width="0dp"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/text_field_nickname"
+                    style="@style/TextFieldCounterAndEndClear"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:paddingHorizontal="20dp"
-                    app:editHint="@string/input_nickname"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_title"
-                    app:title="@string/nickname" />
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/nickname"
+                    app:counterMaxLength="10"
+                    app:hintTextColor="@color/color_4f73dd"
+                    app:layout_constraintTop_toBottomOf="@id/tv_title">
 
-                <org.sopt.dosopttemplate.view.SoptEditView
-                    android:id="@+id/sopt_ev_description"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="20dp"
-                    app:editHint="@string/input_state_description"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/sopt_ev_nickname"
-                    app:title="@string/state_description" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/ev_nickname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLength="10" />
 
-                <org.sopt.dosopttemplate.view.SoptEditView
-                    android:id="@+id/sopt_ev_birth"
-                    android:layout_width="0dp"
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/text_field_description"
+                    style="@style/TextFieldCounterAndEndClear"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="20dp"
-                    app:editHint="1900-XX-XX"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/state_description"
+                    app:counterMaxLength="20"
+                    app:hintTextColor="@color/color_4f73dd"
+                    app:layout_constraintTop_toBottomOf="@id/text_field_nickname">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/ev_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLength="20" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_birth"
+                    android:layout_width="0dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_e8e8e8"
+                    android:layout_marginHorizontal="20dp"
+                    android:drawableStart="@drawable/ic_calendar_ffffff_24"
+                    android:drawableTint="@color/black"
+                    android:drawablePadding="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@string/birth"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_field_description" />
+
+                <org.sopt.dosopttemplate.view.SoptNumberPicker
+                    android:id="@+id/sopt_number_picker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/sopt_ev_description"
-                    app:title="@string/birth" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_birth"
+                    tools:visibility="visible" />
 
                 <Button
                     android:id="@+id/btn_add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="24dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="12dp"
                     android:backgroundTint="@color/color_4f73dd"
                     android:enabled="true"
                     android:text="@string/add_friend"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/sopt_ev_birth" />
+                    app:layout_constraintTop_toBottomOf="@id/sopt_number_picker" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

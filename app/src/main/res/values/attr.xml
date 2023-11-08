@@ -6,4 +6,7 @@
         <attr name="android:textSize"/>
         <attr name="android:inputType"/>
     </declare-styleable>
+    <declare-styleable name="SoptNumberPicker">
+
+    </declare-styleable>
 </resources>
