@@ -12,10 +12,10 @@ import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.model.User
 
 class PreferenceManager(val context: Context) {
-    fun getId(): String = getInstance(context).getString(ID, "") ?: ""
-    fun getPassword(): String = getInstance(context).getString(PWD, "") ?: ""
-    fun getNickname(): String = getInstance(context).getString(NICKNAME, "") ?: ""
-    fun getMBTI(): String = getInstance(context).getString(MBTI, "") ?: ""
+    fun getId(): String = getInstance(context).getString(ID, "").orEmpty()
+    fun getPassword(): String = getInstance(context).getString(PWD, "").orEmpty()
+    fun getNickname(): String = getInstance(context).getString(NICKNAME, "").orEmpty()
+    fun getMBTI(): String = getInstance(context).getString(MBTI, "").orEmpty()
     fun getAutoLogin(): Boolean = getInstance(context).getBoolean(AUTO_LOGIN, false)
 
     fun setAutoLogin(auto: Boolean) {
