@@ -3,15 +3,14 @@ package org.sopt.dosopttemplate.presentation.login
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivityLoginBinding
-import org.sopt.dosopttemplate.db.local.Preference
-import org.sopt.dosopttemplate.db.local.Preference.Companion.EXTRA_USER
-import org.sopt.dosopttemplate.db.local.Preference.Companion.ID
-import org.sopt.dosopttemplate.db.local.Preference.Companion.PWD
+import org.sopt.dosopttemplate.db.local.PreferenceManager
+import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.EXTRA_USER
+import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.ID
+import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.PWD
 import org.sopt.dosopttemplate.model.User
 import org.sopt.dosopttemplate.presentation.SignUpActivity
 import org.sopt.dosopttemplate.presentation.home.HomeActivity
@@ -21,14 +20,14 @@ import org.sopt.dosopttemplate.util.showShortSnackBar
 import org.sopt.dosopttemplate.util.showShortToastMessage
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
-    private val preference: Preference by lazy {
-        Preference(this)
+    private val preferenceManager: PreferenceManager by lazy {
+        PreferenceManager(this)
     }
 
     private val startActivityForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
-                preference.setUser(it.data?.getParcelableData(EXTRA_USER, User::class.java))
+                preferenceManager.setUser(it.data?.getParcelableData(EXTRA_USER, User::class.java))
             }
         }
 
@@ -51,7 +50,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     }
 
     private fun autoLogin() {
-        if (preference.getAutoLogin()) {
+        if (preferenceManager.getAutoLogin()) {
             goToMainActivity()
         }
     }
@@ -87,7 +86,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     }
 
     private fun checkLoginInfo(id: String, pwd: String) {
-        preference.run {
+        preferenceManager.run {
             if (id == getId() && pwd == getPassword()) {
                 successLogin()
             } else {
@@ -97,7 +96,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     }
 
     private fun successLogin() {
-        preference.setAutoLogin(binding.switchAutoLogin.isChecked)
+        preferenceManager.setAutoLogin(binding.switchAutoLogin.isChecked)
         showShortToastMessage(getString(R.string.success_login))
         goToMainActivity()
     }

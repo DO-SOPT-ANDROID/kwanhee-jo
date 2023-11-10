@@ -3,7 +3,7 @@ package org.sopt.dosopttemplate.presentation
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivitySignUpBinding
-import org.sopt.dosopttemplate.db.local.Preference.Companion.EXTRA_USER
+import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.EXTRA_USER
 import org.sopt.dosopttemplate.model.User
 import org.sopt.dosopttemplate.util.MBTI
 import org.sopt.dosopttemplate.util.showShortSnackBar

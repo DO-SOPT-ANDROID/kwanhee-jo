@@ -2,17 +2,16 @@ package org.sopt.dosopttemplate.presentation.home
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.edit
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseFragment
 import org.sopt.dosopttemplate.databinding.FragmentMypageBinding
-import org.sopt.dosopttemplate.db.local.Preference
+import org.sopt.dosopttemplate.db.local.PreferenceManager
 
 class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_mypage
-    private val preference by lazy {
-        Preference(requireContext())
+    private val preferenceManager by lazy {
+        PreferenceManager(requireContext())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -22,7 +21,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
     }
 
     private fun initMyData() {
-        preference.run {
+        preferenceManager.run {
             binding.tvIdContent.text = getId()
             binding.tvProfileNickname.text = getNickname()
             binding.tvMbtiContent.text = getMBTI()
@@ -31,7 +30,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
 
     private fun logout() {
         binding.btnLogout.setOnClickListener {
-            preference.setAutoLogin(false)
+            preferenceManager.setAutoLogin(false)
             activity?.finish()
         }
     }
