@@ -12,20 +12,23 @@ import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.model.User
 
 class PreferenceManager(val context: Context) {
-    fun getId(): String = getInstance(context).getString(ID, "").orEmpty()
-    fun getPassword(): String = getInstance(context).getString(PWD, "").orEmpty()
-    fun getNickname(): String = getInstance(context).getString(NICKNAME, "").orEmpty()
-    fun getMBTI(): String = getInstance(context).getString(MBTI, "").orEmpty()
-    fun getAutoLogin(): Boolean = getInstance(context).getBoolean(AUTO_LOGIN, false)
+    init {
+        getInstance(context)
+    }
+    fun getId(): String = sharedPreferencesInstance.getString(ID, "").orEmpty()
+    fun getPassword(): String = sharedPreferencesInstance.getString(PWD, "").orEmpty()
+    fun getNickname(): String = sharedPreferencesInstance.getString(NICKNAME, "").orEmpty()
+    fun getMBTI(): String = sharedPreferencesInstance.getString(MBTI, "").orEmpty()
+    fun getAutoLogin(): Boolean = sharedPreferencesInstance.getBoolean(AUTO_LOGIN, false)
 
     fun setAutoLogin(auto: Boolean) {
-        getInstance(context).edit(commit = true) {
+        sharedPreferencesInstance.edit(commit = true) {
             putBoolean(AUTO_LOGIN, auto)
         }
     }
 
     fun setUser(user: User?) {
-        getInstance(context).edit(commit = true) {
+        sharedPreferencesInstance.edit(commit = true) {
             user?.let {
                 putString(ID, it.id)
                 putString(PWD, it.password)
@@ -43,14 +46,15 @@ class PreferenceManager(val context: Context) {
         const val MBTI = "MBTI"
         const val AUTO_LOGIN = "AUTO_LOGIN"
 
-        private fun getInstance(context: Context): SharedPreferences = runBlocking {
-            withContext(Dispatchers.IO) {
-                Mutex().withLock {
-                    context.getSharedPreferences(
-                        context.getString(R.string.preference_file_key),
-                        Context.MODE_PRIVATE
-                    )
-                }
+        lateinit var sharedPreferencesInstance: SharedPreferences
+
+        @Synchronized
+        private fun getInstance(context: Context) {
+            if (::sharedPreferencesInstance.isInitialized) {
+                sharedPreferencesInstance = context.getSharedPreferences(
+                    context.getString(R.string.preference_file_key),
+                    Context.MODE_PRIVATE
+                )
             }
         }
     }
