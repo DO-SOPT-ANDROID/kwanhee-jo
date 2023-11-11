@@ -14,7 +14,7 @@ import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.ID
 import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.PWD
 import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.sharedPreferencesInstance
 import org.sopt.dosopttemplate.model.User
-import org.sopt.dosopttemplate.presentation.SignUpActivity
+import org.sopt.dosopttemplate.presentation.signup.SignUpActivity
 import org.sopt.dosopttemplate.presentation.home.HomeActivity
 import org.sopt.dosopttemplate.util.getParcelableData
 import org.sopt.dosopttemplate.util.hideKeyboard

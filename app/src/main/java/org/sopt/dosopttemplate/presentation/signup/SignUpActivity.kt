@@ -1,4 +1,4 @@
-package org.sopt.dosopttemplate.presentation
+package org.sopt.dosopttemplate.presentation.signup
 
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
