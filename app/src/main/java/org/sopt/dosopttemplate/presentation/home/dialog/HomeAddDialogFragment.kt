@@ -1,7 +1,9 @@
 package org.sopt.dosopttemplate.presentation.home.dialog
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseDialogFragment
@@ -12,6 +14,7 @@ import org.sopt.dosopttemplate.util.hideKeyboard
 import org.sopt.dosopttemplate.util.showShortSnackBar
 import org.sopt.dosopttemplate.util.toProfileBirth
 import java.sql.Timestamp
+import java.text.SimpleDateFormat
 
 class HomeAddDialogFragment : BaseDialogFragment<DialogFragmentHomeAddBinding>() {
     override val layoutResId: Int
@@ -32,21 +35,24 @@ class HomeAddDialogFragment : BaseDialogFragment<DialogFragmentHomeAddBinding>()
         super.onViewCreated(view, savedInstanceState)
         initBackgroundDismiss()
         addProfile()
+        binding.tvBirth.setOnClickListener {
+            binding.soptNumberPicker.isVisible = !binding.soptNumberPicker.isVisible
+        }
     }
 
     private fun addProfile() {
         binding.btnAdd.setOnClickListener {
-            if (binding.soptEvNickname.getEditText().isEmpty() ||
-                binding.soptEvBirth.getEditText().isEmpty()
-            ) {
+            if (binding.evNickname.text.isNullOrEmpty()) {
+                binding.evNickname.showShortSnackBar(getString(R.string.set_nickname))
                 activity?.hideKeyboard(binding.root)
-                binding.root.showShortSnackBar(getString(R.string.fail))
+            } else if (!binding.soptNumberPicker.isVisible) {
+                binding.soptNumberPicker.showShortSnackBar(getString(R.string.set_birth))
             } else {
                 val newProfile = HomeProfileModel.Profile(
                     id = homeViewModel.profileList.value?.size ?: 0,
-                    name = binding.soptEvNickname.getEditText(),
-                    description = binding.soptEvDescription.getEditText(),
-                    birth = Timestamp.valueOf(binding.soptEvBirth.getEditText() + " 00:00:00").time,
+                    name = binding.evNickname.text.toString(),
+                    description = binding.evDescription.text.toString(),
+                    birth = Timestamp.valueOf(binding.soptNumberPicker.getBirthday()).time,
                     update = System.currentTimeMillis()
                 )
                 homeViewModel.addProfileList(newProfile)

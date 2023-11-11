@@ -1,42 +1,35 @@
-package org.sopt.dosopttemplate.presentation
+package org.sopt.dosopttemplate.presentation.login
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputType
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.edit
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivityLoginBinding
+import org.sopt.dosopttemplate.db.local.PreferenceManager
+import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.EXTRA_USER
+import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.ID
+import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.PWD
 import org.sopt.dosopttemplate.model.User
+import org.sopt.dosopttemplate.presentation.SignUpActivity
 import org.sopt.dosopttemplate.presentation.home.HomeActivity
 import org.sopt.dosopttemplate.util.getParcelableData
 import org.sopt.dosopttemplate.util.hideKeyboard
+import org.sopt.dosopttemplate.util.showShortSnackBar
 import org.sopt.dosopttemplate.util.showShortToastMessage
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
-    private var user: User? = null
+    private val preferenceManager: PreferenceManager by lazy {
+        PreferenceManager(this)
+    }
 
     private val startActivityForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
-                user = it.data?.getParcelableData(EXTRA_USER, User::class.java)
-                saveSharedFile(user)
+                preferenceManager.setUser(it.data?.getParcelableData(EXTRA_USER, User::class.java))
             }
         }
-
-    private fun saveSharedFile(user: User?) {
-        getSharedPreferenceUser().edit(commit = true) {
-            user?.let {
-                putString(ID, it.id)
-                putString(PWD, it.password)
-                putString(NICKNAME, it.nickname)
-                putString(MBTI, it.mbti.toString())
-            }
-        }
-    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString(ID, binding.soptEvId.getEditText())
@@ -57,10 +50,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     }
 
     private fun autoLogin() {
-        getSharedPreferenceUser().run {
-            if (getBoolean(AUTO_LOGIN, false)) {
-                goToMainActivity()
-            }
+        if (preferenceManager.getAutoLogin()) {
+            goToMainActivity()
         }
     }
 
@@ -78,7 +69,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
 
     private fun initLogin() {
         binding.btLogin.setOnClickListener {
-            checkLoginInfo(binding.soptEvId.getEditText(), binding.soptEvPwd.getEditText())
+            if (binding.soptEvId.getEditText().isEmpty()) {
+                binding.soptEvId.showShortSnackBar(getString(R.string.input_id))
+            } else if (binding.soptEvPwd.getEditText().isEmpty()) {
+                binding.soptEvId.showShortSnackBar(getString(R.string.input_pwd))
+            } else {
+                checkLoginInfo(binding.soptEvId.getEditText(), binding.soptEvPwd.getEditText())
+            }
         }
     }
 
@@ -89,8 +86,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     }
 
     private fun checkLoginInfo(id: String, pwd: String) {
-        with(getSharedPreferenceUser()) {
-            if (id == getString(ID, "") && pwd == getString(PWD, "")) {
+        preferenceManager.run {
+            if (id == getId() && pwd == getPassword()) {
                 successLogin()
             } else {
                 failLogin()
@@ -99,7 +96,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     }
 
     private fun successLogin() {
-        getSharedPreferenceUser().edit().putBoolean(AUTO_LOGIN, true).apply()
+        preferenceManager.setAutoLogin(binding.switchAutoLogin.isChecked)
         showShortToastMessage(getString(R.string.success_login))
         goToMainActivity()
     }
@@ -119,15 +116,4 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         startActivityForResult.launch(intent)
     }
 
-    companion object {
-        const val EXTRA_USER = "user"
-        const val ID = "ID"
-        const val PWD = "PWD"
-        const val NICKNAME = "NICKNAME"
-        const val MBTI = "MBTI"
-        const val AUTO_LOGIN = "AUTO_LOGIN"
-
-        fun Context.getSharedPreferenceUser(): SharedPreferences =
-            getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
-    }
 }

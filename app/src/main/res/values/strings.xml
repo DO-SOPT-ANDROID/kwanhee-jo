@@ -9,6 +9,8 @@
     <string name="input_pwd">비밀번호를 입력해주세요</string>
     <string name="input_nickname">닉네임을 입력해주세요</string>
     <string name="input_mbti">MBTI를 입력해주세요</string>
+    <string name="set_nickname">닉네임을 설정해주세요.</string>
+    <string name="set_birth">생년월일을 설정해주세요.</string>
     <string name="do_login">로그인 하기</string>
     <string name="do_sign_up">회원가입 하기</string>
     <string name="sign_up">회원가입</string>
@@ -21,8 +23,12 @@
     <string name="fail_sign_up">회원가입 실패</string>
     <string name="profile_name">헬스의 신</string>
     <string name="profile_description">저는 스쿼트를 좋아하는데요? 어쩌라구요</string>
+    <string name="auto_login">자동로그인</string>
     <string name="logout">로그아웃</string>
     <string name="finish_dialog">\'뒤로\'버튼 한번 더 누르시면 종료됩니다.</string>
+    <string name="year">년</string>
+    <string name="month">월</string>
+    <string name="day">일</string>
 
     <string name="preference_file_key">PREFERENCE_FILE_KEY</string>
     <string name="state_description">상태 메시지</string>
