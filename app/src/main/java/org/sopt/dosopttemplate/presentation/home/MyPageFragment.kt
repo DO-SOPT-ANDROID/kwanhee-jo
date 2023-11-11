@@ -6,6 +6,10 @@ import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseFragment
 import org.sopt.dosopttemplate.databinding.FragmentMypageBinding
 import org.sopt.dosopttemplate.db.local.PreferenceManager
+import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.ID
+import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.MBTI
+import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.NICKNAME
+import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.sharedPreferencesInstance
 
 class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
     override val layoutId: Int
@@ -21,10 +25,10 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
     }
 
     private fun initMyData() {
-        preferenceManager.run {
-            binding.tvIdContent.text = getId()
-            binding.tvProfileNickname.text = getNickname()
-            binding.tvMbtiContent.text = getMBTI()
+        sharedPreferencesInstance.run {
+            binding.tvIdContent.text = getString(ID, "")
+            binding.tvProfileNickname.text = getString(NICKNAME, "")
+            binding.tvMbtiContent.text = getString(MBTI, "")
         }
     }
 

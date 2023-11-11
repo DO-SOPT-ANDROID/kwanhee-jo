@@ -15,11 +15,6 @@ class PreferenceManager(val context: Context) {
     init {
         getInstance(context)
     }
-    fun getId(): String = sharedPreferencesInstance.getString(ID, "").orEmpty()
-    fun getPassword(): String = sharedPreferencesInstance.getString(PWD, "").orEmpty()
-    fun getNickname(): String = sharedPreferencesInstance.getString(NICKNAME, "").orEmpty()
-    fun getMBTI(): String = sharedPreferencesInstance.getString(MBTI, "").orEmpty()
-    fun getAutoLogin(): Boolean = sharedPreferencesInstance.getBoolean(AUTO_LOGIN, false)
 
     fun setAutoLogin(auto: Boolean) {
         sharedPreferencesInstance.edit(commit = true) {
@@ -50,7 +45,7 @@ class PreferenceManager(val context: Context) {
 
         @Synchronized
         private fun getInstance(context: Context) {
-            if (::sharedPreferencesInstance.isInitialized) {
+            if (!::sharedPreferencesInstance.isInitialized) {
                 sharedPreferencesInstance = context.getSharedPreferences(
                     context.getString(R.string.preference_file_key),
                     Context.MODE_PRIVATE

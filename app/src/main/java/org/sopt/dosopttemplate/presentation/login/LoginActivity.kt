@@ -8,9 +8,11 @@ import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivityLoginBinding
 import org.sopt.dosopttemplate.db.local.PreferenceManager
+import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.AUTO_LOGIN
 import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.EXTRA_USER
 import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.ID
 import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.PWD
+import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.sharedPreferencesInstance
 import org.sopt.dosopttemplate.model.User
 import org.sopt.dosopttemplate.presentation.SignUpActivity
 import org.sopt.dosopttemplate.presentation.home.HomeActivity
@@ -50,7 +52,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     }
 
     private fun autoLogin() {
-        if (preferenceManager.getAutoLogin()) {
+        if (sharedPreferencesInstance.getBoolean(AUTO_LOGIN, false)) {
             goToMainActivity()
         }
     }
@@ -87,7 +89,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
 
     private fun checkLoginInfo(id: String, pwd: String) {
         preferenceManager.run {
-            if (id == getId() && pwd == getPassword()) {
+            if (
+                id == sharedPreferencesInstance.getString(ID, "")
+                && pwd == sharedPreferencesInstance.getString(PWD, "")
+            ) {
                 successLogin()
             } else {
                 failLogin()
