@@ -1,7 +1,5 @@
 package org.sopt.dosopttemplate.util
 
-import org.sopt.dosopttemplate.model.HomeProfileModel
-
 fun String.toMBTI(): MBTI {
     return try {
         if (this.isEmpty()) MBTI.ERROR else MBTI.valueOf(this.uppercase())
@@ -10,12 +8,12 @@ fun String.toMBTI(): MBTI {
     }
 }
 
-fun HomeProfileModel.Profile.toProfileBirth(): HomeProfileModel.ProfileBirthday =
-    HomeProfileModel.ProfileBirthday(
-        id = this.id,
-        name = this.name,
-        description = this.description,
-        profileImage = this.profileImage,
-        update = this.update,
-        music = this.music
-    )
+//fun HomeProfileModel.Profile.toProfileBirth(): HomeProfileModel.ProfileBirthday =
+//    HomeProfileModel.ProfileBirthday(
+//        id = this.id,
+//        name = this.name,
+//        description = this.description,
+//        profileImage = this.profileImage,
+//        update = this.update,
+//        music = this.music
+//    )
