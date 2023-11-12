@@ -3,10 +3,6 @@ package org.sopt.dosopttemplate.util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -16,9 +12,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.snackbar.Snackbar
+import okhttp3.ResponseBody
+import org.sopt.dosopttemplate.db.remote.RetrofitManager
+import org.sopt.dosopttemplate.model.dto.ErrorResult
 
 fun View.showShortSnackBar(msg: String) {
     Snackbar.make(this, msg, Snackbar.LENGTH_SHORT).show()
@@ -48,3 +45,9 @@ fun ImageView.roundedCornerGlide(view: View, loadImage: Int, size: Int, radius: 
         .transform(MultiTransformation(CenterCrop(), RoundedCorners(radius)))
         .into(this)
 }
+
+fun ResponseBody.toErrorResult(): ErrorResult? =
+    RetrofitManager.retrofit.responseBodyConverter<ErrorResult>(
+        ErrorResult::class.java,
+        ErrorResult::class.java.annotations
+    ).convert(this)

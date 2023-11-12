@@ -1,4 +1,4 @@
-package org.sopt.dosopttemplate.service
+package org.sopt.dosopttemplate.api
 
 import org.sopt.dosopttemplate.model.dto.req.SignUpReq
 import retrofit2.Call

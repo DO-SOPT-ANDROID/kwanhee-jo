@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import androidx.activity.result.contract.ActivityResultContracts
+import org.sopt.dosopttemplate.DoSoptApp.Companion.sharedPreferencesInstance
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivityLoginBinding
@@ -12,24 +13,22 @@ import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.AUTO_LOGIN
 import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.EXTRA_USER
 import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.ID
 import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.PWD
-import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.sharedPreferencesInstance
 import org.sopt.dosopttemplate.model.User
-import org.sopt.dosopttemplate.presentation.signup.SignUpActivity
 import org.sopt.dosopttemplate.presentation.home.HomeActivity
+import org.sopt.dosopttemplate.presentation.signup.SignUpActivity
 import org.sopt.dosopttemplate.util.getParcelableData
 import org.sopt.dosopttemplate.util.hideKeyboard
 import org.sopt.dosopttemplate.util.showShortSnackBar
 import org.sopt.dosopttemplate.util.showShortToastMessage
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
-    private val preferenceManager: PreferenceManager by lazy {
-        PreferenceManager(this)
-    }
+    private lateinit var preferenceManager: PreferenceManager
 
     private val startActivityForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
-                preferenceManager.setUser(it.data?.getParcelableData(EXTRA_USER, User::class.java))
+
+//                preferenceManager.setUser(it.data?.getParcelableData(EXTRA_USER, User::class.java))
             }
         }
 

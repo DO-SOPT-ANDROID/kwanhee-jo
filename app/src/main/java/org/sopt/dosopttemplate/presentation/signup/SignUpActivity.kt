@@ -1,17 +1,50 @@
 package org.sopt.dosopttemplate.presentation.signup
 
+import androidx.lifecycle.ViewModelProvider
+import org.sopt.dosopttemplate.DoSoptApp.Companion.getApiHelperInstance
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivitySignUpBinding
-import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.EXTRA_USER
-import org.sopt.dosopttemplate.model.User
+import org.sopt.dosopttemplate.model.dto.resp.SignUpResp
+import org.sopt.dosopttemplate.presentation.signup.viewmodel.SignUpViewModel
+import org.sopt.dosopttemplate.repository.AuthRepository
+import org.sopt.dosopttemplate.util.AuthViewModelFactory
 import org.sopt.dosopttemplate.util.MBTI
+import org.sopt.dosopttemplate.util.hideKeyboard
 import org.sopt.dosopttemplate.util.showShortSnackBar
+import org.sopt.dosopttemplate.util.showShortToastMessage
 import org.sopt.dosopttemplate.util.toMBTI
 
 class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding::inflate) {
-    override fun initView() {
+    private lateinit var signUpViewModel: SignUpViewModel
 
+    override fun initView() {
+        initViewModel()
+        observeData()
+    }
+
+    private fun initViewModel() {
+        signUpViewModel =
+            ViewModelProvider(
+                this,
+                AuthViewModelFactory(AuthRepository(getApiHelperInstance()))
+            ).get(SignUpViewModel::class.java)
+    }
+
+    private fun observeData() {
+        signUpViewModel.signUpResp.observe(this) {
+            when (it) {
+                is SignUpResp.Success -> {
+                    showShortToastMessage(getString(R.string.success_sign_up))
+                    setResult(RESULT_OK, intent)
+                    finish()
+                }
+
+                is SignUpResp.Error -> {
+                    binding.root.showShortSnackBar(getString(R.string.fail_sign_up))
+                }
+            }
+        }
     }
 
     override fun initEvent() {
@@ -20,41 +53,19 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
 
     private fun initDoSignUp() {
         binding.btSignUp.setOnClickListener {
-            val user = User(
-                binding.soptEvId.getEditText(),
-                binding.soptEvPwd.getEditText(),
-                binding.soptEvNickname.getEditText(),
-                binding.soptEvMbti.getEditText().toMBTI()
-            )
-
-            if (checkLength(user.id, 6, 10) && checkLength(user.password, 8, 12) &&
-                isSuccessNickname(user.nickname) && isSuccessMBTI(user.mbti)
+            hideKeyboard(binding.root)
+            if (
+                binding.soptEvId.getEditText().length in 6..10
+                && binding.soptEvPwd.getEditText().length in 8..12
+                && binding.soptEvNickname.getEditText().isNotEmpty()
+                && binding.soptEvMbti.getEditText().toMBTI() != MBTI.ERROR
             ) {
-                successSignUp(user)
-            } else {
-                failSignUp()
+                signUpViewModel.signUp(
+                    id = binding.soptEvId.getEditText(),
+                    nickname = binding.soptEvNickname.getEditText(),
+                    password = binding.soptEvPwd.getEditText()
+                )
             }
         }
     }
-
-    private fun successSignUp(user: User) {
-        binding.root.showShortSnackBar(getString(R.string.success_sign_up))
-        intent.putExtra(EXTRA_USER, user)
-        setResult(RESULT_OK, intent)
-        finish()
-    }
-
-    private fun failSignUp() {
-        binding.root.showShortSnackBar(getString(R.string.fail_sign_up))
-    }
-
-    private fun checkLength(contents: String, min: Int, max: Int): Boolean =
-        contents.length in min..max
-
-    private fun isSuccessNickname(nickname: String): Boolean =
-        nickname.isNotEmpty()
-
-    private fun isSuccessMBTI(mbti: MBTI): Boolean =
-        mbti != MBTI.ERROR
-
 }

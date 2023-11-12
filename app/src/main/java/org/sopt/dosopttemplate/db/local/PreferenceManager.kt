@@ -1,21 +1,10 @@
 package org.sopt.dosopttemplate.db.local
 
-import android.content.Context
-import android.content.SharedPreferences
 import androidx.core.content.edit
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.withContext
-import org.sopt.dosopttemplate.R
+import org.sopt.dosopttemplate.DoSoptApp.Companion.sharedPreferencesInstance
 import org.sopt.dosopttemplate.model.User
 
-class PreferenceManager(val context: Context) {
-    init {
-        getInstance(context)
-    }
-
+class PreferenceManager {
     fun setAutoLogin(auto: Boolean) {
         sharedPreferencesInstance.edit(commit = true) {
             putBoolean(AUTO_LOGIN, auto)
@@ -40,17 +29,5 @@ class PreferenceManager(val context: Context) {
         const val NICKNAME = "NICKNAME"
         const val MBTI = "MBTI"
         const val AUTO_LOGIN = "AUTO_LOGIN"
-
-        lateinit var sharedPreferencesInstance: SharedPreferences
-
-        @Synchronized
-        private fun getInstance(context: Context) {
-            if (!::sharedPreferencesInstance.isInitialized) {
-                sharedPreferencesInstance = context.getSharedPreferences(
-                    context.getString(R.string.preference_file_key),
-                    Context.MODE_PRIVATE
-                )
-            }
-        }
     }
 }
