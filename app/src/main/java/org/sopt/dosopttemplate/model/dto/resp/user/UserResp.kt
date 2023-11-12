@@ -6,15 +6,15 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UserResp(
     @SerialName("page")
-    val page: Int,
+    val page: Int = 0,
     @SerialName("per_page")
-    val per_page: Int,
+    val per_page: Int = 0,
     @SerialName("total")
-    val total: Int,
+    val total: Int = 0,
     @SerialName("total_pages")
-    val total_pages: Int,
+    val total_pages: Int = 0,
     @SerialName("data")
-    val data: List<UserDataResp>,
+    val data: List<UserDataResp> = emptyList(),
     @SerialName("support")
-    val support: UserSupportResp
+    val support: UserSupportResp = UserSupportResp()
 )

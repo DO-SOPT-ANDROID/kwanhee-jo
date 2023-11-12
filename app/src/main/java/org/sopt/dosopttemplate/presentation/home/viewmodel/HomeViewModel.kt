@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.sopt.dosopttemplate.model.HomeBottomItem
 import org.sopt.dosopttemplate.model.HomeProfileModel
+import org.sopt.dosopttemplate.model.dto.resp.user.UserResp
 import org.sopt.dosopttemplate.repository.UserRepository
 
 class HomeViewModel(
@@ -17,6 +18,9 @@ class HomeViewModel(
 
     private val _profileList = MutableLiveData<List<HomeProfileModel>>()
     val profileList: LiveData<List<HomeProfileModel>> = _profileList
+
+    private val _userList = MutableLiveData<UserResp>()
+    val userList: LiveData<UserResp> = _userList
 
     fun setBottomItemId(id: HomeBottomItem) {
         _bottomItemId.value = id
@@ -63,7 +67,9 @@ class HomeViewModel(
 
     fun getUserList(page: Int = 1) {
         viewModelScope.launch {
-            userRepository.getUserList(page)
+            userRepository.getUserList(page) { isSuccess, userResp ->
+                _userList.value = userResp
+            }
         }
     }
 }

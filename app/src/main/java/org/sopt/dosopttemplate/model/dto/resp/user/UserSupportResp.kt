@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UserSupportResp(
     @SerialName("url")
-    val url: String,
+    val url: String = "",
     @SerialName("text")
-    val text: String,
+    val text: String = "",
 )

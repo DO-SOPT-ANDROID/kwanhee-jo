@@ -7,14 +7,14 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.sopt.dosopttemplate.BuildConfig
 import org.sopt.dosopttemplate.BuildConfig.BASE_URL
-import org.sopt.dosopttemplate.BuildConfig.USER_BASE_URL
 import org.sopt.dosopttemplate.api.AuthAPI
 import org.sopt.dosopttemplate.api.UserAPI
+import org.sopt.dosopttemplate.db.remote.RetrofitManager.USER_BASE_URL
 import retrofit2.Retrofit
 
 object RetrofitManager {
     const val BASE_URL = BuildConfig.BASE_URL
-    const val USER_BASE_URL = BuildConfig.BASE_URL
+    const val USER_BASE_URL = BuildConfig.USER_BASE_URL
 
     private val httpLoggingInterceptor = HttpLoggingInterceptor()
         .setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -31,16 +31,17 @@ object RetrofitManager {
             .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
             .build()
 
-    val retrofit: Retrofit by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
-            .build()
-    }
+//    val retrofit: Retrofit by lazy {
+//        Retrofit.Builder()
+//            .baseUrl(BASE_URL)
+//            .client(okHttpClient)
+//            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+//            .build()
+//    }
 
-//    inline fun <reified T> create(): T = retrofit.create<T>(T::class.java)
-    inline fun <reified T, B> create(url: B): T = getRetrofit(url.toString()).create<T>(T::class.java)
+    //    inline fun <reified T> create(): T = retrofit.create<T>(T::class.java)
+    inline fun <reified T, B> create(url: B): T =
+        getRetrofit(url.toString()).create<T>(T::class.java)
 }
 
 object RetrofitServicePool {

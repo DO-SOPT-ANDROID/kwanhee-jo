@@ -25,9 +25,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
 
     override fun initView() {
         initViewModel()
-        initList()
-        setBirthdayContent()
-        setHomeProfileList()
+//        initList()
+//        setBirthdayContent()
+//        setHomeProfileList()
         initFragment()
         homeViewModel.getUserList()
     }
