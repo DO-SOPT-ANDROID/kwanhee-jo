@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import org.sopt.dosopttemplate.model.dto.resp.SignUpResp
+import org.sopt.dosopttemplate.model.dto.resp.auth.SignUpResp
 import org.sopt.dosopttemplate.repository.AuthRepository
 
 class SignUpViewModel(

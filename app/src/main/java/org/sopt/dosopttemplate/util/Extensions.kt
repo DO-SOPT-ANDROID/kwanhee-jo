@@ -43,8 +43,8 @@ fun ImageView.roundedCornerGlide(view: View, loadImage: Int, size: Int, radius: 
         .into(this)
 }
 
-fun ResponseBody.toErrorResult(): RespResult? =
-    RetrofitManager.retrofit.responseBodyConverter<RespResult>(
+fun ResponseBody.toErrorResult(url: String): RespResult? =
+    RetrofitManager.getRetrofit(url).responseBodyConverter<RespResult>(
         RespResult::class.java,
         RespResult::class.java.annotations
     ).convert(this)

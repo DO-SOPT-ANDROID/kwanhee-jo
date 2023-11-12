@@ -6,7 +6,7 @@ import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivitySignUpBinding
 import org.sopt.dosopttemplate.db.local.PreferenceManager
-import org.sopt.dosopttemplate.model.dto.resp.SignUpResp
+import org.sopt.dosopttemplate.model.dto.resp.auth.SignUpResp
 import org.sopt.dosopttemplate.presentation.signup.viewmodel.SignUpViewModel
 import org.sopt.dosopttemplate.repository.AuthRepository
 import org.sopt.dosopttemplate.util.AuthViewModelFactory

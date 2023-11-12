@@ -3,10 +3,15 @@ package org.sopt.dosopttemplate.presentation.home.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import org.sopt.dosopttemplate.model.HomeBottomItem
 import org.sopt.dosopttemplate.model.HomeProfileModel
+import org.sopt.dosopttemplate.repository.UserRepository
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(
+    private val userRepository: UserRepository
+) : ViewModel() {
     private val _bottomItemId = MutableLiveData<HomeBottomItem>()
     val bottomItemId: LiveData<HomeBottomItem> = _bottomItemId
 
@@ -53,6 +58,12 @@ class HomeViewModel : ViewModel() {
         _profileList.value = _profileList.value?.toMutableList()?.let {
             it.add(1, profile)
             it.toList()
+        }
+    }
+
+    fun getUserList(page: Int = 1) {
+        viewModelScope.launch {
+            userRepository.getUserList(page)
         }
     }
 }

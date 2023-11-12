@@ -2,29 +2,41 @@ package org.sopt.dosopttemplate.presentation.home
 
 import android.content.res.Configuration
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import org.sopt.dosopttemplate.DoSoptApp
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivityHomeBinding
 import org.sopt.dosopttemplate.model.HomeBottomItem
 import org.sopt.dosopttemplate.model.HomeProfileModel
 import org.sopt.dosopttemplate.presentation.home.viewmodel.HomeViewModel
+import org.sopt.dosopttemplate.repository.UserRepository
+import org.sopt.dosopttemplate.util.UserViewModelFactory
 import org.sopt.dosopttemplate.util.sampleDeque
 import org.sopt.dosopttemplate.util.showShortToastMessage
 import org.sopt.dosopttemplate.util.toProfileBirth
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
     private var backPressedTime = 0L
-    private val homeViewModel: HomeViewModel by viewModels()
+    private lateinit var homeViewModel: HomeViewModel
     private var birthdayDeque = ArrayDeque<HomeProfileModel.ProfileBirthday>()
     private var homeSampleDeque = sampleDeque.toMutableList()
 
     override fun initView() {
+        initViewModel()
         initList()
         setBirthdayContent()
         setHomeProfileList()
         initFragment()
+        homeViewModel.getUserList()
+    }
+
+    private fun initViewModel() {
+        homeViewModel = ViewModelProvider(
+            this,
+            UserViewModelFactory(UserRepository(DoSoptApp.getUserApiHelperInstance()))
+        ).get(HomeViewModel::class.java)
     }
 
     private fun initFragment() {

@@ -3,7 +3,6 @@ package org.sopt.dosopttemplate.presentation.login
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import org.sopt.dosopttemplate.DoSoptApp
@@ -17,7 +16,7 @@ import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.ID
 import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.MBTI
 import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.PWD
 import org.sopt.dosopttemplate.model.dto.RespResult
-import org.sopt.dosopttemplate.model.dto.resp.LoginResp
+import org.sopt.dosopttemplate.model.dto.resp.auth.LoginResp
 import org.sopt.dosopttemplate.presentation.home.HomeActivity
 import org.sopt.dosopttemplate.presentation.login.viewmodel.LoginViewModel
 import org.sopt.dosopttemplate.presentation.signup.SignUpActivity
@@ -26,7 +25,6 @@ import org.sopt.dosopttemplate.util.AuthViewModelFactory
 import org.sopt.dosopttemplate.util.hideKeyboard
 import org.sopt.dosopttemplate.util.showShortSnackBar
 import org.sopt.dosopttemplate.util.showShortToastMessage
-import org.sopt.dosopttemplate.util.toMBTI
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
     private lateinit var loginViewModel: LoginViewModel

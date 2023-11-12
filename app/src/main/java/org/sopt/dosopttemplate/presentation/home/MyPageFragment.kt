@@ -14,7 +14,6 @@ import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.NICKNAME
 class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_mypage
-    private lateinit var preferenceManager: PreferenceManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

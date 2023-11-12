@@ -1,17 +1,18 @@
 package org.sopt.dosopttemplate.db.remote
 
-import org.sopt.dosopttemplate.api.RetrofitService
+import org.sopt.dosopttemplate.api.AuthAPI
 import org.sopt.dosopttemplate.db.local.PreferenceManager
+import org.sopt.dosopttemplate.db.remote.RetrofitManager.BASE_URL
 import org.sopt.dosopttemplate.model.dto.RespResult
 import org.sopt.dosopttemplate.model.dto.req.LoginReq
 import org.sopt.dosopttemplate.model.dto.req.SignUpReq
-import org.sopt.dosopttemplate.model.dto.resp.LoginResp
-import org.sopt.dosopttemplate.model.dto.resp.SignUpResp
+import org.sopt.dosopttemplate.model.dto.resp.auth.LoginResp
+import org.sopt.dosopttemplate.model.dto.resp.auth.SignUpResp
 import org.sopt.dosopttemplate.util.toErrorResult
 import retrofit2.Call
 import retrofit2.Response
 
-class ApiHelper(private val retrofitService: RetrofitService) {
+class AuthApiHelper(private val authAPI: AuthAPI) {
     private val preferenceManager = PreferenceManager()
 
     fun signUp(
@@ -20,7 +21,7 @@ class ApiHelper(private val retrofitService: RetrofitService) {
         password: String,
         onResponse: (SignUpResp) ->  Unit
     ) {
-        retrofitService.signUp(SignUpReq(id, nickname, password))
+        authAPI.signUp(SignUpReq(id, nickname, password))
             .enqueue(object : retrofit2.Callback<Unit> {
                 override fun onResponse(
                     call: Call<Unit>,
@@ -29,7 +30,7 @@ class ApiHelper(private val retrofitService: RetrofitService) {
                     if (response.isSuccessful && response.code() == 201) {
                         onResponse(SignUpResp.Success(response.headers()["Location"]?.split("/")?.last().toString()))
                     } else {
-                        onResponse(SignUpResp.Error(response.errorBody()?.toErrorResult()?.message.toString()))
+                        onResponse(SignUpResp.Error(response.errorBody()?.toErrorResult(BASE_URL)?.message.toString()))
                     }
                 }
 
@@ -40,7 +41,7 @@ class ApiHelper(private val retrofitService: RetrofitService) {
     }
 
     fun login(id: String, password: String, auto: Boolean, onResponse: (RespResult) -> Unit) {
-        retrofitService.login(LoginReq(id, password))
+        authAPI.login(LoginReq(id, password))
             .enqueue(object : retrofit2.Callback<LoginResp> {
                 override fun onResponse(call: Call<LoginResp>, response: Response<LoginResp>) {
                     if (response.isSuccessful && response.code() == 200) {
@@ -53,7 +54,7 @@ class ApiHelper(private val retrofitService: RetrofitService) {
                             onResponse(it)
                         }
                     } else {
-                        response.errorBody()?.toErrorResult()?.let {
+                        response.errorBody()?.toErrorResult(BASE_URL)?.let {
                             onResponse(it)
                         }
                     }

@@ -3,8 +3,9 @@ package org.sopt.dosopttemplate
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import org.sopt.dosopttemplate.db.remote.ApiHelper
+import org.sopt.dosopttemplate.db.remote.AuthApiHelper
 import org.sopt.dosopttemplate.db.remote.RetrofitServicePool
+import org.sopt.dosopttemplate.db.remote.UserApiHelper
 
 class DoSoptApp : Application() {
     override fun onCreate() {
@@ -14,7 +15,8 @@ class DoSoptApp : Application() {
 
     companion object {
         lateinit var sharedPreferencesInstance: SharedPreferences
-        private lateinit var apiHelper: ApiHelper
+        private lateinit var authApiHelper: AuthApiHelper
+        private lateinit var userApiHelper: UserApiHelper
 
         @Synchronized
         private fun getSharedPreferencesInstance(context: Context): SharedPreferences {
@@ -27,11 +29,18 @@ class DoSoptApp : Application() {
             return sharedPreferencesInstance
         }
 
-        fun getApiHelperInstance(): ApiHelper {
-            if (!::apiHelper.isInitialized) {
-                apiHelper = ApiHelper(RetrofitServicePool.authService)
+        fun getApiHelperInstance(): AuthApiHelper {
+            if (!::authApiHelper.isInitialized) {
+                authApiHelper = AuthApiHelper(RetrofitServicePool.authService)
             }
-            return apiHelper
+            return authApiHelper
+        }
+
+        fun getUserApiHelperInstance(): UserApiHelper {
+            if (!::userApiHelper.isInitialized) {
+                userApiHelper = UserApiHelper(RetrofitServicePool.userService)
+            }
+            return userApiHelper
         }
     }
 }
