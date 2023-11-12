@@ -5,6 +5,7 @@ import org.sopt.dosopttemplate.DoSoptApp.Companion.getApiHelperInstance
 import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivitySignUpBinding
+import org.sopt.dosopttemplate.db.local.PreferenceManager
 import org.sopt.dosopttemplate.model.dto.resp.SignUpResp
 import org.sopt.dosopttemplate.presentation.signup.viewmodel.SignUpViewModel
 import org.sopt.dosopttemplate.repository.AuthRepository
@@ -36,12 +37,17 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
             when (it) {
                 is SignUpResp.Success -> {
                     showShortToastMessage(getString(R.string.success_sign_up))
+                    intent.putExtra(
+                        PreferenceManager.MBTI,
+                        binding.soptEvMbti.getEditText().uppercase()
+                    )
                     setResult(RESULT_OK, intent)
                     finish()
                 }
 
                 is SignUpResp.Error -> {
-                    binding.root.showShortSnackBar(getString(R.string.fail_sign_up))
+                    binding.root.showShortSnackBar(it.message)
+                    hideKeyboard(binding.root)
                 }
             }
         }

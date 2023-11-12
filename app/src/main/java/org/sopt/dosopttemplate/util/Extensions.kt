@@ -15,7 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.snackbar.Snackbar
 import okhttp3.ResponseBody
 import org.sopt.dosopttemplate.db.remote.RetrofitManager
-import org.sopt.dosopttemplate.model.dto.ErrorResult
+import org.sopt.dosopttemplate.model.dto.RespResult
 
 fun View.showShortSnackBar(msg: String) {
     Snackbar.make(this, msg, Snackbar.LENGTH_SHORT).show()
@@ -31,11 +31,8 @@ fun <T> Intent.getParcelableData(name: String, className: Class<T>): T? =
 
 
 fun Activity.hideKeyboard(view: View) {
-    (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).let { imm ->
-        if (imm.isAcceptingText) {
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
-        }
-    }
+    (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+        .hideSoftInputFromWindow(view.windowToken, 0)
 }
 
 fun ImageView.roundedCornerGlide(view: View, loadImage: Int, size: Int, radius: Int) {
@@ -46,8 +43,8 @@ fun ImageView.roundedCornerGlide(view: View, loadImage: Int, size: Int, radius: 
         .into(this)
 }
 
-fun ResponseBody.toErrorResult(): ErrorResult? =
-    RetrofitManager.retrofit.responseBodyConverter<ErrorResult>(
-        ErrorResult::class.java,
-        ErrorResult::class.java.annotations
+fun ResponseBody.toErrorResult(): RespResult? =
+    RetrofitManager.retrofit.responseBodyConverter<RespResult>(
+        RespResult::class.java,
+        RespResult::class.java.annotations
     ).convert(this)

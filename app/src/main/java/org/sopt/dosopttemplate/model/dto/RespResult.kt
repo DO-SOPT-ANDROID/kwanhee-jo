@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ErrorResult(
+open class RespResult(
     @SerialName("message")
     val message: String = ""
 )

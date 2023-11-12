@@ -11,14 +11,21 @@ class PreferenceManager {
         }
     }
 
-    fun setUser(user: User?) {
+    fun setAccount(account: String) {
         sharedPreferencesInstance.edit(commit = true) {
-            user?.let {
-                putString(ID, it.id)
-                putString(PWD, it.password)
-                putString(NICKNAME, it.nickname)
-                putString(MBTI, it.mbti.toString())
-            }
+            putString(ID, account)
+        }
+    }
+
+    fun setNickname(nickname: String) {
+        sharedPreferencesInstance.edit(commit = true) {
+            putString(NICKNAME, nickname)
+        }
+    }
+
+    fun setMBTI(mbti: String) {
+        sharedPreferencesInstance.edit(commit = true) {
+            putString(MBTI, mbti)
         }
     }
 
