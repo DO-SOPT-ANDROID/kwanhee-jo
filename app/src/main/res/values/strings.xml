@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DoSoptTemplate</string>
+    <string name="app_name">DoSoptKwanheejo</string>
     <string name="sopt_title">Welcome to SOPT</string>
     <string name="id">ID</string>
     <string name="pwd">비밀번호</string>

@@ -10,7 +10,7 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
-    namespace 'org.sopt.dosopttemplate'
+    namespace 'org.sopt.dosoptkwanheejo'
     compileSdk 33
 
     defaultConfig {

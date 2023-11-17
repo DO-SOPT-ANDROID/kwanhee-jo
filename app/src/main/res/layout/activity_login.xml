@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <org.sopt.dosopttemplate.view.SoptEditView
+    <org.sopt.dosoptkwanheejo.view.SoptEditView
         android:id="@+id/sopt_ev_id"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_title"
         app:title="@string/id" />
 
-    <org.sopt.dosopttemplate.view.SoptEditView
+    <org.sopt.dosoptkwanheejo.view.SoptEditView
         android:id="@+id/sopt_ev_pwd"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
