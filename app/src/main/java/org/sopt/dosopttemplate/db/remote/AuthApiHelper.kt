@@ -1,5 +1,6 @@
 package org.sopt.dosopttemplate.db.remote
 
+import android.util.Log
 import org.sopt.dosopttemplate.api.AuthAPI
 import org.sopt.dosopttemplate.db.local.PreferenceManager
 import org.sopt.dosopttemplate.db.remote.RetrofitManager.BASE_URL
@@ -19,7 +20,7 @@ class AuthApiHelper(private val authAPI: AuthAPI) {
         id: String,
         nickname: String,
         password: String,
-        onResponse: (SignUpResp) ->  Unit
+        onResponse: (SignUpResp) -> Unit
     ) {
         authAPI.signUp(SignUpReq(id, nickname, password))
             .enqueue(object : retrofit2.Callback<Unit> {
@@ -28,15 +29,21 @@ class AuthApiHelper(private val authAPI: AuthAPI) {
                     response: Response<Unit>
                 ) {
                     if (response.isSuccessful) {
-                        onResponse(SignUpResp.Success(response.headers()["Location"]?.split("/")?.last().toString()))
+                        onResponse(
+                            SignUpResp.Success(
+                                response.headers()["Location"]?.split("/")?.last().toString()
+                            )
+                        )
                     } else {
-                        onResponse(SignUpResp.Error(response.errorBody()?.toErrorResult(BASE_URL)?.message.toString()))
+                        onResponse(
+                            SignUpResp.Error(
+                                response.errorBody()?.toErrorResult(BASE_URL)?.message.toString()
+                            )
+                        )
                     }
                 }
 
-                override fun onFailure(call: Call<Unit>, t: Throwable) {
-                    t.printStackTrace()
-                }
+                override fun onFailure(call: Call<Unit>, t: Throwable) {}
             })
     }
 
@@ -60,9 +67,7 @@ class AuthApiHelper(private val authAPI: AuthAPI) {
                     }
                 }
 
-                override fun onFailure(call: Call<LoginResp>, t: Throwable) {
-                    t.printStackTrace()
-                }
+                override fun onFailure(call: Call<LoginResp>, t: Throwable) {}
             })
     }
 }

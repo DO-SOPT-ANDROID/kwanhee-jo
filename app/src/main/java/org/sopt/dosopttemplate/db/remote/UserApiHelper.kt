@@ -8,8 +8,8 @@ import retrofit2.Call
 import retrofit2.Response
 
 class UserApiHelper(private val userAPI: UserAPI) {
-    fun getUserList(page: Int, onResponse:(Boolean, UserResp) -> Unit) {
-        userAPI.getUserList(page).enqueue(object: retrofit2.Callback<UserResp> {
+    fun getUserList(page: Int, onResponse: (Boolean, UserResp) -> Unit) {
+        userAPI.getUserList(page).enqueue(object : retrofit2.Callback<UserResp> {
             override fun onResponse(call: Call<UserResp>, response: Response<UserResp>) {
                 if (response.isSuccessful) {
                     onResponse(response.isSuccessful, response.body() ?: UserResp())
@@ -18,9 +18,7 @@ class UserApiHelper(private val userAPI: UserAPI) {
                 }
             }
 
-            override fun onFailure(call: Call<UserResp>, t: Throwable) {
-                t.printStackTrace()
-            }
+            override fun onFailure(call: Call<UserResp>, t: Throwable) {}
         })
     }
 }
