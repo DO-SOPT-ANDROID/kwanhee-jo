@@ -23,7 +23,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViewModel()
-        initDoSignUp()
+        signUp()
         observeData()
     }
 
@@ -35,15 +35,10 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
             ).get(SignUpViewModel::class.java)
     }
 
-    private fun initDoSignUp() {
+    private fun signUp() {
         binding.btSignUp.setOnClickListener {
             hideKeyboard(binding.root)
-            if (
-                binding.soptEvId.getEditText().length in 6..10
-                && binding.soptEvPwd.getEditText().length in 8..12
-                && binding.soptEvNickname.getEditText().isNotEmpty()
-                && binding.soptEvMbti.getEditText().toMBTI() != MBTI.ERROR
-            ) {
+            if (isValidInformation()) {
                 signUpViewModel.signUp(
                     id = binding.soptEvId.getEditText(),
                     nickname = binding.soptEvNickname.getEditText(),
@@ -52,6 +47,12 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
             }
         }
     }
+
+    private fun isValidInformation(): Boolean =
+        binding.soptEvId.getEditText().length in 6..10
+        && binding.soptEvPwd.getEditText().length in 8..12
+        && binding.soptEvNickname.getEditText().isNotEmpty()
+        && binding.soptEvMbti.getEditText().toMBTI() != MBTI.ERROR
 
     private fun observeData() {
         signUpViewModel.signUpResp.observe(this) {
