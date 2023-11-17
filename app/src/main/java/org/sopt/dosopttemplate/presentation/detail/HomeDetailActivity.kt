@@ -1,15 +1,14 @@
 package org.sopt.dosopttemplate.presentation.detail
 
+import android.os.Bundle
+import org.sopt.dosoptkwanheejo.databinding.ActivityHomeDetailBinding
 import org.sopt.dosopttemplate.base.BaseActivity
-import org.sopt.dosopttemplate.databinding.ActivityHomeDetailBinding
 
 class HomeDetailActivity :
     BaseActivity<ActivityHomeDetailBinding>(ActivityHomeDetailBinding::inflate) {
-    override fun initView() {
-    }
 
-
-    override fun initEvent() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         initBack()
     }
 

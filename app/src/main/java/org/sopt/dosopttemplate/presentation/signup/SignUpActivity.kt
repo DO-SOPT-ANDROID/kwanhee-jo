@@ -1,10 +1,11 @@
 package org.sopt.dosopttemplate.presentation.signup
 
+import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import org.sopt.dosoptkwanheejo.R
+import org.sopt.dosoptkwanheejo.databinding.ActivitySignUpBinding
 import org.sopt.dosopttemplate.DoSoptApp.Companion.getApiHelperInstance
-import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
-import org.sopt.dosopttemplate.databinding.ActivitySignUpBinding
 import org.sopt.dosopttemplate.db.local.PreferenceManager
 import org.sopt.dosopttemplate.model.dto.resp.auth.SignUpResp
 import org.sopt.dosopttemplate.presentation.signup.viewmodel.SignUpViewModel
@@ -19,8 +20,10 @@ import org.sopt.dosopttemplate.util.toMBTI
 class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding::inflate) {
     private lateinit var signUpViewModel: SignUpViewModel
 
-    override fun initView() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         initViewModel()
+        initDoSignUp()
         observeData()
     }
 
@@ -30,6 +33,24 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
                 this,
                 AuthViewModelFactory(AuthRepository(getApiHelperInstance()))
             ).get(SignUpViewModel::class.java)
+    }
+
+    private fun initDoSignUp() {
+        binding.btSignUp.setOnClickListener {
+            hideKeyboard(binding.root)
+            if (
+                binding.soptEvId.getEditText().length in 6..10
+                && binding.soptEvPwd.getEditText().length in 8..12
+                && binding.soptEvNickname.getEditText().isNotEmpty()
+                && binding.soptEvMbti.getEditText().toMBTI() != MBTI.ERROR
+            ) {
+                signUpViewModel.signUp(
+                    id = binding.soptEvId.getEditText(),
+                    nickname = binding.soptEvNickname.getEditText(),
+                    password = binding.soptEvPwd.getEditText()
+                )
+            }
+        }
     }
 
     private fun observeData() {
@@ -49,28 +70,6 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
                     binding.root.showShortSnackBar(it.message)
                     hideKeyboard(binding.root)
                 }
-            }
-        }
-    }
-
-    override fun initEvent() {
-        initDoSignUp()
-    }
-
-    private fun initDoSignUp() {
-        binding.btSignUp.setOnClickListener {
-            hideKeyboard(binding.root)
-            if (
-                binding.soptEvId.getEditText().length in 6..10
-                && binding.soptEvPwd.getEditText().length in 8..12
-                && binding.soptEvNickname.getEditText().isNotEmpty()
-                && binding.soptEvMbti.getEditText().toMBTI() != MBTI.ERROR
-            ) {
-                signUpViewModel.signUp(
-                    id = binding.soptEvId.getEditText(),
-                    nickname = binding.soptEvNickname.getEditText(),
-                    password = binding.soptEvPwd.getEditText()
-                )
             }
         }
     }

@@ -1,13 +1,13 @@
 package org.sopt.dosopttemplate.presentation.home
 
-import android.content.res.Configuration
+import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import org.sopt.dosoptkwanheejo.R
+import org.sopt.dosoptkwanheejo.databinding.ActivityHomeBinding
 import org.sopt.dosopttemplate.DoSoptApp
-import org.sopt.dosopttemplate.R
 import org.sopt.dosopttemplate.base.BaseActivity
-import org.sopt.dosopttemplate.databinding.ActivityHomeBinding
 import org.sopt.dosopttemplate.model.HomeBottomItem
 import org.sopt.dosopttemplate.presentation.home.viewmodel.HomeViewModel
 import org.sopt.dosopttemplate.repository.UserRepository
@@ -18,9 +18,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
     private var backPressedTime = 0L
     private lateinit var homeViewModel: HomeViewModel
 
-    override fun initView() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         initViewModel()
         initFragment()
+        initBottomNavigationClick()
+        initBackPressed()
+        initBottomNavigationReSelected()
         homeViewModel.getUserList()
     }
 
@@ -39,16 +43,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
             binding.bottomNavigationView.selectedItemId = R.id.home
             homeViewModel.setBottomItemId(HomeBottomItem.HOME)
         }
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-    }
-
-    override fun initEvent() {
-        initBottomNavigationClick()
-        initBackPressed()
-        initBottomNavigationReSelected()
     }
 
     private fun initBottomNavigationReSelected() {
@@ -83,13 +77,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
             }
         }
     }
-
-//    private fun changeOrientation(portraitFragment: Fragment, landscapeFragment: Fragment) {
-//        when (resources.configuration.orientation) {
-//            Configuration.ORIENTATION_PORTRAIT -> replaceFragment(portraitFragment)
-//            Configuration.ORIENTATION_LANDSCAPE -> replaceFragment(landscapeFragment)
-//        }
-//    }
 
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
