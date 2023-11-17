@@ -27,7 +27,7 @@ class AuthApiHelper(private val authAPI: AuthAPI) {
                     call: Call<Unit>,
                     response: Response<Unit>
                 ) {
-                    if (response.isSuccessful && response.code() == 201) {
+                    if (response.isSuccessful) {
                         onResponse(SignUpResp.Success(response.headers()["Location"]?.split("/")?.last().toString()))
                     } else {
                         onResponse(SignUpResp.Error(response.errorBody()?.toErrorResult(BASE_URL)?.message.toString()))
@@ -44,7 +44,7 @@ class AuthApiHelper(private val authAPI: AuthAPI) {
         authAPI.login(LoginReq(id, password))
             .enqueue(object : retrofit2.Callback<LoginResp> {
                 override fun onResponse(call: Call<LoginResp>, response: Response<LoginResp>) {
-                    if (response.isSuccessful && response.code() == 200) {
+                    if (response.isSuccessful) {
                         preferenceManager.run {
                             setAutoLogin(auto)
                             setAccount(response.body()?.username.toString())
