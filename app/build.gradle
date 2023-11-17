@@ -22,6 +22,9 @@ android {
 
         buildConfigField "String", "BASE_URL", properties["base.url"]
         buildConfigField "String", "USER_BASE_URL", properties["user.base.url"]
+        buildConfigField "String", "NAVER_PAPAGO_BASE_URL", properties["naver.papago.base.url"]
+        buildConfigField "String", "NAVER_CLIENT_ID", properties["naver.client.id"]
+        buildConfigField "String", "NAVER_CLIENT_SECRET", properties["naver.client.secret"]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

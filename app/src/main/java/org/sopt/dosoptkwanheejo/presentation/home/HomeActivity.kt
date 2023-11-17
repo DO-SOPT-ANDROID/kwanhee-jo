@@ -10,8 +10,9 @@ import org.sopt.dosoptkwanheejo.base.BaseActivity
 import org.sopt.dosoptkwanheejo.databinding.ActivityHomeBinding
 import org.sopt.dosoptkwanheejo.model.HomeBottomItem
 import org.sopt.dosoptkwanheejo.presentation.home.viewmodel.HomeViewModel
+import org.sopt.dosoptkwanheejo.repository.NaverRepository
 import org.sopt.dosoptkwanheejo.repository.UserRepository
-import org.sopt.dosoptkwanheejo.util.UserViewModelFactory
+import org.sopt.dosoptkwanheejo.util.HomeViewModelFactory
 import org.sopt.dosoptkwanheejo.util.showShortToastMessage
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
@@ -27,7 +28,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
     private fun initViewModel() {
         homeViewModel = ViewModelProvider(
             this,
-            UserViewModelFactory(UserRepository(DoSoptApp.getUserApiHelperInstance()))
+            HomeViewModelFactory(
+                UserRepository(DoSoptApp.getUserApiHelperInstance()),
+                NaverRepository(DoSoptApp.getNaverApiHelperInstance())
+            )
         ).get(HomeViewModel::class.java)
     }
 

@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import org.sopt.dosoptkwanheejo.db.remote.AuthApiHelper
+import org.sopt.dosoptkwanheejo.db.remote.NaverApiHelper
 import org.sopt.dosoptkwanheejo.db.remote.RetrofitServicePool
 import org.sopt.dosoptkwanheejo.db.remote.UserApiHelper
 
@@ -17,6 +18,7 @@ class DoSoptApp : Application() {
         lateinit var sharedPreferencesInstance: SharedPreferences
         private lateinit var authApiHelper: AuthApiHelper
         private lateinit var userApiHelper: UserApiHelper
+        private lateinit var naverApiHelper: NaverApiHelper
 
         @Synchronized
         private fun getSharedPreferencesInstance(context: Context): SharedPreferences {
@@ -31,7 +33,11 @@ class DoSoptApp : Application() {
 
         fun getApiHelperInstance(): AuthApiHelper {
             if (!::authApiHelper.isInitialized) {
-                authApiHelper = AuthApiHelper(RetrofitServicePool.authService)
+                try {
+                    authApiHelper = AuthApiHelper(RetrofitServicePool.authService)
+                } catch (e: ExceptionInInitializerError) {
+                    e.printStackTrace()
+                }
             }
             return authApiHelper
         }
@@ -41,6 +47,13 @@ class DoSoptApp : Application() {
                 userApiHelper = UserApiHelper(RetrofitServicePool.userService)
             }
             return userApiHelper
+        }
+
+        fun getNaverApiHelperInstance(): NaverApiHelper {
+            if (!::naverApiHelper.isInitialized) {
+                naverApiHelper = NaverApiHelper(RetrofitServicePool.naverPapagoService)
+            }
+            return naverApiHelper
         }
     }
 }
