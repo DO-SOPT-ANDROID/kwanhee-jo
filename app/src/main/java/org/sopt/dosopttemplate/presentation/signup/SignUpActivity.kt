@@ -2,8 +2,8 @@ package org.sopt.dosopttemplate.presentation.signup
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
-import org.sopt.dosoptkwanheejo.R
-import org.sopt.dosoptkwanheejo.databinding.ActivitySignUpBinding
+import org.sopt.dosopttemplate.R
+import org.sopt.dosopttemplate.databinding.ActivitySignUpBinding
 import org.sopt.dosopttemplate.DoSoptApp.Companion.getApiHelperInstance
 import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.db.local.PreferenceManager

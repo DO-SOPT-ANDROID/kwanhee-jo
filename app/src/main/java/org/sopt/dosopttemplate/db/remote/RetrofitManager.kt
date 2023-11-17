@@ -31,15 +31,6 @@ object RetrofitManager {
             .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
             .build()
 
-//    val retrofit: Retrofit by lazy {
-//        Retrofit.Builder()
-//            .baseUrl(BASE_URL)
-//            .client(okHttpClient)
-//            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
-//            .build()
-//    }
-
-    //    inline fun <reified T> create(): T = retrofit.create<T>(T::class.java)
     inline fun <reified T, B> create(url: B): T =
         getRetrofit(url.toString()).create<T>(T::class.java)
 }

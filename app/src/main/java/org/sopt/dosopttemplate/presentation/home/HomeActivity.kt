@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import org.sopt.dosoptkwanheejo.R
-import org.sopt.dosoptkwanheejo.databinding.ActivityHomeBinding
+import org.sopt.dosopttemplate.R
+import org.sopt.dosopttemplate.databinding.ActivityHomeBinding
 import org.sopt.dosopttemplate.DoSoptApp
 import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.model.HomeBottomItem

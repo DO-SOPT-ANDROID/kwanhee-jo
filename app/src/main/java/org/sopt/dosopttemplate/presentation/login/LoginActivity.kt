@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.text.InputType
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
-import org.sopt.dosoptkwanheejo.R
-import org.sopt.dosoptkwanheejo.databinding.ActivityLoginBinding
+import org.sopt.dosopttemplate.R
+import org.sopt.dosopttemplate.databinding.ActivityLoginBinding
 import org.sopt.dosopttemplate.DoSoptApp
 import org.sopt.dosopttemplate.DoSoptApp.Companion.sharedPreferencesInstance
 import org.sopt.dosopttemplate.base.BaseActivity
