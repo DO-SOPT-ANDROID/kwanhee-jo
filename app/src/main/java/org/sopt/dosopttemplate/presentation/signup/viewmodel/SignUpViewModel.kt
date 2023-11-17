@@ -15,10 +15,8 @@ class SignUpViewModel(
     val signUpResp: LiveData<SignUpResp> = _signUpResp
 
     fun signUp(id: String, nickname: String, password: String) {
-        viewModelScope.launch {
-            authRepository.signUp(id, nickname, password) {
-                _signUpResp.value = it
-            }
+        authRepository.signUp(id, nickname, password) {
+            _signUpResp.value = it
         }
     }
 }

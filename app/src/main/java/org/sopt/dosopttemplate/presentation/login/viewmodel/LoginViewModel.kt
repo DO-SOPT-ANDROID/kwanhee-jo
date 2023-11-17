@@ -10,15 +10,13 @@ import org.sopt.dosopttemplate.repository.AuthRepository
 
 class LoginViewModel(
     private val authRepository: AuthRepository
-): ViewModel() {
+) : ViewModel() {
     private val _loginResp = MutableLiveData<RespResult>()
     val loginResp: LiveData<RespResult> = _loginResp
 
     fun login(id: String, password: String, auto: Boolean) {
-        viewModelScope.launch {
-            authRepository.login(id, password, auto) {
-                _loginResp.value = it
-            }
+        authRepository.login(id, password, auto) {
+            _loginResp.value = it
         }
     }
 }
