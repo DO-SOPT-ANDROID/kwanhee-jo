@@ -28,6 +28,8 @@ class AndroidFragment : BaseFragment<FragmentAndroidBinding>() {
                     "ko",
                     binding.etTranslateText.text.toString()
                 )
+            } else {
+                binding.tvBeTranslatedText.text = ""
             }
         }
     }
