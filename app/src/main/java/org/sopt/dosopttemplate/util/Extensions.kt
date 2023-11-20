@@ -3,10 +3,6 @@ package org.sopt.dosopttemplate.util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -16,9 +12,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.snackbar.Snackbar
+import okhttp3.ResponseBody
+import org.sopt.dosopttemplate.db.remote.RetrofitManager
+import org.sopt.dosopttemplate.model.dto.RespResult
 
 fun View.showShortSnackBar(msg: String) {
     Snackbar.make(this, msg, Snackbar.LENGTH_SHORT).show()
@@ -34,11 +31,8 @@ fun <T> Intent.getParcelableData(name: String, className: Class<T>): T? =
 
 
 fun Activity.hideKeyboard(view: View) {
-    (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).let { imm ->
-        if (imm.isAcceptingText) {
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
-        }
-    }
+    (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+        .hideSoftInputFromWindow(view.windowToken, 0)
 }
 
 fun ImageView.roundedCornerGlide(view: View, loadImage: Int, size: Int, radius: Int) {
@@ -48,3 +42,17 @@ fun ImageView.roundedCornerGlide(view: View, loadImage: Int, size: Int, radius: 
         .transform(MultiTransformation(CenterCrop(), RoundedCorners(radius)))
         .into(this)
 }
+
+fun ImageView.loadUrl(view: View, loadImage: String, size: Int, radius: Int) {
+    Glide.with(view)
+        .load(loadImage)
+        .override(size)
+        .transform(MultiTransformation(CenterCrop(), RoundedCorners(radius)))
+        .into(this)
+}
+
+fun ResponseBody.toErrorResult(url: String): RespResult? =
+    RetrofitManager.getRetrofit(url).responseBodyConverter<RespResult>(
+        RespResult::class.java,
+        RespResult::class.java.annotations
+    ).convert(this)

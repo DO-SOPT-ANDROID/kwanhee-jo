@@ -1,73 +1,48 @@
 package org.sopt.dosopttemplate.presentation.home
 
-import android.content.res.Configuration
+import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import org.sopt.dosopttemplate.R
-import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivityHomeBinding
+import org.sopt.dosopttemplate.DoSoptApp
+import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.model.HomeBottomItem
-import org.sopt.dosopttemplate.model.HomeProfileModel
 import org.sopt.dosopttemplate.presentation.home.viewmodel.HomeViewModel
-import org.sopt.dosopttemplate.util.sampleDeque
+import org.sopt.dosopttemplate.repository.UserRepository
+import org.sopt.dosopttemplate.util.UserViewModelFactory
 import org.sopt.dosopttemplate.util.showShortToastMessage
-import org.sopt.dosopttemplate.util.toProfileBirth
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
     private var backPressedTime = 0L
-    private val homeViewModel: HomeViewModel by viewModels()
-    private var birthdayDeque = ArrayDeque<HomeProfileModel.ProfileBirthday>()
-    private var homeSampleDeque = sampleDeque.toMutableList()
+    private lateinit var homeViewModel: HomeViewModel
 
-    override fun initView() {
-        initList()
-        setBirthdayContent()
-        setHomeProfileList()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initViewModel()
         initFragment()
+        initBottomNavigationClick()
+        initBackPressed()
+        initBottomNavigationReSelected()
+        homeViewModel.getUserList()
+    }
+
+    private fun initViewModel() {
+        homeViewModel = ViewModelProvider(
+            this,
+            UserViewModelFactory(UserRepository(DoSoptApp.getUserApiHelperInstance()))
+        ).get(HomeViewModel::class.java)
     }
 
     private fun initFragment() {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
         if (currentFragment == null) {
-            changeOrientation(HomeFragment.newInstance(), HomeLandFragment.newInstance())
+            replaceFragment(HomeFragment.newInstance())
             binding.bottomNavigationView.selectedItemId = R.id.home
             homeViewModel.setBottomItemId(HomeBottomItem.HOME)
         }
-    }
-
-    private fun initList() {
-        if (birthdayDeque.isEmpty()) {
-            homeSampleDeque.forEach {
-                if (it is HomeProfileModel.Profile && it.checkBirthDay()) {
-                    birthdayDeque.add(it.toProfileBirth())
-                }
-            }
-        }
-    }
-
-    private fun setBirthdayContent() {
-        birthdayDeque.forEach {
-            homeSampleDeque.add(1, it)
-        }
-    }
-
-    private fun setHomeProfileList() {
-        homeViewModel.setProfileList(homeSampleDeque.toList())
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        if (binding.bottomNavigationView.selectedItemId == R.id.home) {
-            changeOrientation(HomeFragment.newInstance(), HomeLandFragment.newInstance())
-        }
-    }
-
-    override fun initEvent() {
-        initBottomNavigationClick()
-        initBackPressed()
-        initBottomNavigationReSelected()
     }
 
     private fun initBottomNavigationReSelected() {
@@ -84,7 +59,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> {
-                    changeOrientation(HomeFragment.newInstance(), HomeLandFragment.newInstance())
+                    replaceFragment(HomeFragment.newInstance())
                     true
                 }
 
@@ -100,13 +75,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
 
                 else -> false
             }
-        }
-    }
-
-    private fun changeOrientation(portraitFragment: Fragment, landscapeFragment: Fragment) {
-        when (resources.configuration.orientation) {
-            Configuration.ORIENTATION_PORTRAIT -> replaceFragment(portraitFragment)
-            Configuration.ORIENTATION_LANDSCAPE -> replaceFragment(landscapeFragment)
         }
     }
 

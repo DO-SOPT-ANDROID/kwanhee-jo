@@ -14,10 +14,5 @@ abstract class BaseActivity<T : ViewBinding>(val bindingFactory: (LayoutInflater
         super.onCreate(savedInstanceState)
         binding = bindingFactory(layoutInflater)
         setContentView(binding.root)
-        initView()
-        initEvent()
     }
-
-    abstract fun initView()
-    abstract fun initEvent()
 }

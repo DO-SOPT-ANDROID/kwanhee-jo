@@ -3,8 +3,8 @@ package org.sopt.dosopttemplate.presentation.home
 import android.os.Bundle
 import android.view.View
 import org.sopt.dosopttemplate.R
-import org.sopt.dosopttemplate.base.BaseFragment
 import org.sopt.dosopttemplate.databinding.FragmentAndroidBinding
+import org.sopt.dosopttemplate.base.BaseFragment
 
 class AndroidFragment : BaseFragment<FragmentAndroidBinding>() {
     override val layoutId: Int

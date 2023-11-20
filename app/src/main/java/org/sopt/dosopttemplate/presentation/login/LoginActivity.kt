@@ -4,32 +4,49 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.ViewModelProvider
 import org.sopt.dosopttemplate.R
-import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.databinding.ActivityLoginBinding
+import org.sopt.dosopttemplate.DoSoptApp
+import org.sopt.dosopttemplate.DoSoptApp.Companion.sharedPreferencesInstance
+import org.sopt.dosopttemplate.base.BaseActivity
 import org.sopt.dosopttemplate.db.local.PreferenceManager
-import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.EXTRA_USER
+import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.AUTO_LOGIN
 import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.ID
+import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.MBTI
 import org.sopt.dosopttemplate.db.local.PreferenceManager.Companion.PWD
-import org.sopt.dosopttemplate.model.User
-import org.sopt.dosopttemplate.presentation.SignUpActivity
+import org.sopt.dosopttemplate.model.dto.RespResult
+import org.sopt.dosopttemplate.model.dto.resp.auth.LoginResp
 import org.sopt.dosopttemplate.presentation.home.HomeActivity
-import org.sopt.dosopttemplate.util.getParcelableData
+import org.sopt.dosopttemplate.presentation.login.viewmodel.LoginViewModel
+import org.sopt.dosopttemplate.presentation.signup.SignUpActivity
+import org.sopt.dosopttemplate.repository.AuthRepository
+import org.sopt.dosopttemplate.util.AuthViewModelFactory
 import org.sopt.dosopttemplate.util.hideKeyboard
 import org.sopt.dosopttemplate.util.showShortSnackBar
 import org.sopt.dosopttemplate.util.showShortToastMessage
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
-    private val preferenceManager: PreferenceManager by lazy {
-        PreferenceManager(this)
-    }
+    private lateinit var loginViewModel: LoginViewModel
 
     private val startActivityForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
-                preferenceManager.setUser(it.data?.getParcelableData(EXTRA_USER, User::class.java))
+                PreferenceManager().setMBTI(it.data?.getStringExtra(MBTI).toString())
             }
         }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initViewModel()
+        binding.soptEvId.setInputType(InputType.TYPE_CLASS_TEXT)
+        binding.soptEvPwd.setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
+        autoLogin()
+        initHideKeyboard()
+        initLogin()
+        initSignUp()
+        observeData()
+    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString(ID, binding.soptEvId.getEditText())
@@ -43,22 +60,18 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         binding.soptEvPwd.setEditHintText(savedInstanceState.getString(PWD) ?: "")
     }
 
-    override fun initView() {
-        binding.soptEvId.setInputType(InputType.TYPE_CLASS_TEXT)
-        binding.soptEvPwd.setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
-        autoLogin()
+    private fun initViewModel() {
+        loginViewModel =
+            ViewModelProvider(
+                this,
+                AuthViewModelFactory(AuthRepository(DoSoptApp.getApiHelperInstance()))
+            ).get(LoginViewModel::class.java)
     }
 
     private fun autoLogin() {
-        if (preferenceManager.getAutoLogin()) {
+        if (sharedPreferencesInstance.getBoolean(AUTO_LOGIN, false)) {
             goToMainActivity()
         }
-    }
-
-    override fun initEvent() {
-        initHideKeyboard()
-        initLogin()
-        initSignUp()
     }
 
     private fun initHideKeyboard() {
@@ -74,7 +87,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
             } else if (binding.soptEvPwd.getEditText().isEmpty()) {
                 binding.soptEvId.showShortSnackBar(getString(R.string.input_pwd))
             } else {
-                checkLoginInfo(binding.soptEvId.getEditText(), binding.soptEvPwd.getEditText())
+                loginViewModel.login(
+                    binding.soptEvId.getEditText(),
+                    binding.soptEvPwd.getEditText(),
+                    binding.switchAutoLogin.isChecked
+                )
             }
         }
     }
@@ -85,24 +102,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         }
     }
 
-    private fun checkLoginInfo(id: String, pwd: String) {
-        preferenceManager.run {
-            if (id == getId() && pwd == getPassword()) {
-                successLogin()
-            } else {
-                failLogin()
-            }
-        }
-    }
-
     private fun successLogin() {
-        preferenceManager.setAutoLogin(binding.switchAutoLogin.isChecked)
         showShortToastMessage(getString(R.string.success_login))
         goToMainActivity()
-    }
-
-    private fun failLogin() {
-        showShortToastMessage(getString(R.string.fail_login))
     }
 
     private fun goToMainActivity() {
@@ -116,4 +118,17 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         startActivityForResult.launch(intent)
     }
 
+    private fun observeData() {
+        loginViewModel.loginResp.observe(this) {
+            when (it) {
+                is LoginResp -> {
+                    successLogin()
+                }
+                is RespResult -> {
+                    binding.root.showShortSnackBar(it.message)
+                    hideKeyboard(binding.root)
+                }
+            }
+        }
+    }
 }
