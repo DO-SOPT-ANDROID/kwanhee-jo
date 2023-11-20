@@ -89,7 +89,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_field_description" />
 
-                <org.sopt.dosopttemplate.view.SoptNumberPicker
+                <org.sopt.dosoptkwanheejo.view.SoptNumberPicker
                     android:id="@+id/sopt_number_picker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
