@@ -14,7 +14,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "org.sopt.dosopttemplate"
+        applicationId "org.sopt.dosoptkwanheejo"
         minSdk 28
         targetSdk 33
         versionCode 1
