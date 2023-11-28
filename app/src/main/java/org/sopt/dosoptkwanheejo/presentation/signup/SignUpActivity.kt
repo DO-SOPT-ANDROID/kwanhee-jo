@@ -1,7 +1,10 @@
 package org.sopt.dosoptkwanheejo.presentation.signup
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.lifecycle.ViewModelProvider
+import org.sopt.dosoptkwanheejo.DoSoptApp
 import org.sopt.dosoptkwanheejo.DoSoptApp.Companion.getApiHelperInstance
 import org.sopt.dosoptkwanheejo.R
 import org.sopt.dosoptkwanheejo.base.BaseActivity
@@ -16,6 +19,7 @@ import org.sopt.dosoptkwanheejo.util.hideKeyboard
 import org.sopt.dosoptkwanheejo.util.showShortSnackBar
 import org.sopt.dosoptkwanheejo.util.showShortToastMessage
 import org.sopt.dosoptkwanheejo.util.toMBTI
+import org.sopt.dosoptkwanheejo.view.SoptEditView
 
 class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding::inflate) {
     private lateinit var signUpViewModel: SignUpViewModel
@@ -23,6 +27,8 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViewModel()
+        addIdTextChangedListener()
+        addPasswordTextChangedListener()
         signUp()
         observeData()
     }
@@ -33,6 +39,30 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
                 this,
                 AuthViewModelFactory(AuthRepository(getApiHelperInstance()))
             ).get(SignUpViewModel::class.java)
+    }
+
+    private fun addIdTextChangedListener() {
+        binding.soptEvId.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                signUpViewModel.idFlag.value = DoSoptApp.ID_REGEX.matcher(s).matches()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+    }
+
+    private fun addPasswordTextChangedListener() {
+        binding.soptEvPwd.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                signUpViewModel.passwordFlag.value = DoSoptApp.PASSWORD_REGEX.matcher(s).matches()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
     }
 
     private fun signUp() {
@@ -68,10 +98,29 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
                 }
 
                 is SignUpResp.Error -> {
+                    setCustomEditContent(binding.soptEvId, true)
+                    setCustomEditContent(binding.soptEvPwd, true)
                     binding.root.showShortSnackBar(it.message)
                     hideKeyboard(binding.root)
                 }
             }
+        }
+        signUpViewModel.idFlag.observe(this) {
+            setCustomEditContent(binding.soptEvId, false)
+            binding.btSignUp.isEnabled = it && signUpViewModel.passwordFlag.value == true
+        }
+        signUpViewModel.passwordFlag.observe(this) {
+            setCustomEditContent(binding.soptEvPwd, false)
+            binding.btSignUp.isEnabled = it && signUpViewModel.idFlag.value == true
+        }
+    }
+
+    private fun setCustomEditContent(editView: SoptEditView, visible: Boolean) {
+        editView.isVisibleError(visible)
+        if (visible) {
+            editView.setBackgroundTint(R.color.color_f44336)
+        } else {
+            editView.setBackgroundTint(R.color.black)
         }
     }
 }
