@@ -1,6 +1,7 @@
 package org.sopt.dosoptkwanheejo.view
 
 import android.content.Context
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.util.TypedValue
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -63,5 +64,9 @@ class SoptEditView @JvmOverloads constructor(
 
     fun setInputType(inputType: Int) {
         binding.etContent.inputType = inputType
+    }
+
+    fun addTextChangedListener(textWatcher: TextWatcher) {
+        binding.etContent.addTextChangedListener(textWatcher)
     }
 }

@@ -2,10 +2,15 @@ package org.sopt.dosoptkwanheejo.presentation.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import org.sopt.dosoptkwanheejo.DoSoptApp
+import org.sopt.dosoptkwanheejo.DoSoptApp.Companion.ID_REGEX
+import org.sopt.dosoptkwanheejo.DoSoptApp.Companion.PASSWORD_REGEX
 import org.sopt.dosoptkwanheejo.DoSoptApp.Companion.sharedPreferencesInstance
 import org.sopt.dosoptkwanheejo.R
 import org.sopt.dosoptkwanheejo.base.BaseActivity
@@ -25,6 +30,8 @@ import org.sopt.dosoptkwanheejo.util.AuthViewModelFactory
 import org.sopt.dosoptkwanheejo.util.hideKeyboard
 import org.sopt.dosoptkwanheejo.util.showShortSnackBar
 import org.sopt.dosoptkwanheejo.util.showShortToastMessage
+import org.w3c.dom.Text
+import java.util.regex.Pattern
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
     private lateinit var loginViewModel: LoginViewModel
@@ -45,7 +52,33 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         initHideKeyboard()
         initLogin()
         initSignUp()
+        addIdTextChangedListener()
+        addPasswordTextChangedListener()
         observeData()
+    }
+
+    private fun addIdTextChangedListener() {
+        binding.soptEvId.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                loginViewModel.idFlag.value = ID_REGEX.matcher(s).matches()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+    }
+
+    private fun addPasswordTextChangedListener() {
+        binding.soptEvPwd.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                loginViewModel.passwordFlag.value = PASSWORD_REGEX.matcher(s).matches()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -124,11 +157,18 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
                 is LoginResp -> {
                     successLogin()
                 }
+
                 is RespResult -> {
                     binding.root.showShortSnackBar(it.message)
                     hideKeyboard(binding.root)
                 }
             }
+        }
+        loginViewModel.idFlag.observe(this) {
+            binding.btLogin.isEnabled = it && loginViewModel.passwordFlag.value == true
+        }
+        loginViewModel.passwordFlag.observe(this) {
+            binding.btLogin.isEnabled = it && loginViewModel.idFlag.value == true
         }
     }
 }
