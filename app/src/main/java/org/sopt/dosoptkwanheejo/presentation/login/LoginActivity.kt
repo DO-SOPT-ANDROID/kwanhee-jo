@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import org.sopt.dosoptkwanheejo.DoSoptApp
@@ -30,8 +29,7 @@ import org.sopt.dosoptkwanheejo.util.AuthViewModelFactory
 import org.sopt.dosoptkwanheejo.util.hideKeyboard
 import org.sopt.dosoptkwanheejo.util.showShortSnackBar
 import org.sopt.dosoptkwanheejo.util.showShortToastMessage
-import org.w3c.dom.Text
-import java.util.regex.Pattern
+import org.sopt.dosoptkwanheejo.view.SoptEditView
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
     private lateinit var loginViewModel: LoginViewModel
@@ -159,16 +157,29 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
                 }
 
                 is RespResult -> {
+                    setCustomEditContent(binding.soptEvId, true)
+                    setCustomEditContent(binding.soptEvPwd, true)
                     binding.root.showShortSnackBar(it.message)
                     hideKeyboard(binding.root)
                 }
             }
         }
         loginViewModel.idFlag.observe(this) {
+            setCustomEditContent(binding.soptEvId, false)
             binding.btLogin.isEnabled = it && loginViewModel.passwordFlag.value == true
         }
         loginViewModel.passwordFlag.observe(this) {
+            setCustomEditContent(binding.soptEvPwd, false)
             binding.btLogin.isEnabled = it && loginViewModel.idFlag.value == true
+        }
+    }
+
+    private fun setCustomEditContent(editView: SoptEditView, visible: Boolean) {
+        editView.isVisibleError(visible)
+        if (visible) {
+            editView.setBackgroundTint(R.color.color_f44336)
+        } else {
+            editView.setBackgroundTint(R.color.black)
         }
     }
 }

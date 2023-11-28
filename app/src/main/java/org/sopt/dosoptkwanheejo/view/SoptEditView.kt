@@ -5,6 +5,8 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import android.util.TypedValue
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import org.sopt.dosoptkwanheejo.R
 import org.sopt.dosoptkwanheejo.databinding.CustomEditViewBinding
 
@@ -68,5 +70,14 @@ class SoptEditView @JvmOverloads constructor(
 
     fun addTextChangedListener(textWatcher: TextWatcher) {
         binding.etContent.addTextChangedListener(textWatcher)
+    }
+
+    fun setBackgroundTint(color: Int) {
+        binding.etContent.backgroundTintList =
+            ContextCompat.getColorStateList(binding.root.context, color)
+    }
+
+    fun isVisibleError(visible: Boolean) {
+        binding.ivError.isVisible = visible
     }
 }

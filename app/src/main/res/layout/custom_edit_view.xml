@@ -20,9 +20,22 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        android:backgroundTint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title"
         tools:hint="aaaaaaaaaaaaaaaaaaa" />
+
+    <ImageView
+        android:id="@+id/iv_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:tint="@color/color_f44336"
+        android:visibility="invisible"
+        android:src="@drawable/ic_error_ffffff_24"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/et_content"
+        app:layout_constraintEnd_toEndOf="@id/et_content"
+        app:layout_constraintTop_toTopOf="@id/et_content"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
