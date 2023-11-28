@@ -100,6 +100,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
                 is SignUpResp.Error -> {
                     setCustomEditContent(binding.soptEvId, true)
                     setCustomEditContent(binding.soptEvPwd, true)
+                    binding.btSignUp.isEnabled = false
                     binding.root.showShortSnackBar(it.message)
                     hideKeyboard(binding.root)
                 }
