@@ -50,33 +50,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         initHideKeyboard()
         initLogin()
         initSignUp()
-        addIdTextChangedListener()
-        addPasswordTextChangedListener()
         observeData()
-    }
-
-    private fun addIdTextChangedListener() {
-        binding.soptEvId.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                loginViewModel.idFlag.value = ID_REGEX.matcher(s).matches()
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
-    }
-
-    private fun addPasswordTextChangedListener() {
-        binding.soptEvPwd.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                loginViewModel.passwordFlag.value = PASSWORD_REGEX.matcher(s).matches()
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -157,29 +131,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
                 }
 
                 is RespResult -> {
-                    setCustomEditContent(binding.soptEvId, true)
-                    setCustomEditContent(binding.soptEvPwd, true)
                     binding.root.showShortSnackBar(it.message)
                     hideKeyboard(binding.root)
                 }
             }
-        }
-        loginViewModel.idFlag.observe(this) {
-            setCustomEditContent(binding.soptEvId, false)
-            binding.btLogin.isEnabled = it && loginViewModel.passwordFlag.value == true
-        }
-        loginViewModel.passwordFlag.observe(this) {
-            setCustomEditContent(binding.soptEvPwd, false)
-            binding.btLogin.isEnabled = it && loginViewModel.idFlag.value == true
-        }
-    }
-
-    private fun setCustomEditContent(editView: SoptEditView, visible: Boolean) {
-        editView.isVisibleError(visible)
-        if (visible) {
-            editView.setBackgroundTint(R.color.color_f44336)
-        } else {
-            editView.setBackgroundTint(R.color.black)
         }
     }
 }

@@ -9,9 +9,6 @@ import org.sopt.dosoptkwanheejo.repository.AuthRepository
 class LoginViewModel(
     private val authRepository: AuthRepository
 ) : ViewModel() {
-    val idFlag = MutableLiveData<Boolean>()
-    val passwordFlag = MutableLiveData<Boolean>()
-
     private val _loginResp = MutableLiveData<RespResult>()
     val loginResp: LiveData<RespResult> = _loginResp
 
