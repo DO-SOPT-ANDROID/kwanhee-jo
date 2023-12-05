@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import org.sopt.dosoptkwanheejo.DoSoptApp
 import org.sopt.dosoptkwanheejo.DoSoptApp.Companion.getApiHelperInstance
 import org.sopt.dosoptkwanheejo.R
@@ -11,6 +13,7 @@ import org.sopt.dosoptkwanheejo.base.BaseActivity
 import org.sopt.dosoptkwanheejo.databinding.ActivitySignUpBinding
 import org.sopt.dosoptkwanheejo.db.local.PreferenceManager
 import org.sopt.dosoptkwanheejo.model.dto.resp.auth.SignUpResp
+import org.sopt.dosoptkwanheejo.presentation.signup.viewmodel.LoginState
 import org.sopt.dosoptkwanheejo.presentation.signup.viewmodel.SignUpViewModel
 import org.sopt.dosoptkwanheejo.repository.AuthRepository
 import org.sopt.dosoptkwanheejo.util.AuthViewModelFactory
@@ -80,29 +83,33 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
 
     private fun isValidInformation(): Boolean =
         binding.soptEvId.getEditText().length in 6..10
-        && binding.soptEvPwd.getEditText().length in 8..12
-        && binding.soptEvNickname.getEditText().isNotEmpty()
-        && binding.soptEvMbti.getEditText().toMBTI() != MBTI.ERROR
+                && binding.soptEvPwd.getEditText().length in 8..12
+                && binding.soptEvNickname.getEditText().isNotEmpty()
+                && binding.soptEvMbti.getEditText().toMBTI() != MBTI.ERROR
 
     private fun observeData() {
-        signUpViewModel.signUpResp.observe(this) {
-            when (it) {
-                is SignUpResp.Success -> {
-                    showShortToastMessage(getString(R.string.success_sign_up))
-                    intent.putExtra(
-                        PreferenceManager.MBTI,
-                        binding.soptEvMbti.getEditText().uppercase()
-                    )
-                    setResult(RESULT_OK, intent)
-                    finish()
-                }
+        lifecycleScope.launch {
+            signUpViewModel.loginState.collect {
+                when (it) {
+                    LoginState.SUCCESS -> {
+                        showShortToastMessage(getString(R.string.success_sign_up))
+                        intent.putExtra(
+                            PreferenceManager.MBTI,
+                            binding.soptEvMbti.getEditText().uppercase()
+                        )
+                        setResult(RESULT_OK, intent)
+                        finish()
+                    }
 
-                is SignUpResp.Error -> {
-                    setCustomEditContent(binding.soptEvId, true)
-                    setCustomEditContent(binding.soptEvPwd, true)
-                    binding.btSignUp.isEnabled = false
-                    binding.root.showShortSnackBar(it.message)
-                    hideKeyboard(binding.root)
+                    LoginState.ERROR -> {
+                        setCustomEditContent(binding.soptEvId, true)
+                        setCustomEditContent(binding.soptEvPwd, true)
+                        binding.btSignUp.isEnabled = false
+                        binding.root.showShortSnackBar(it.message)
+                        hideKeyboard(binding.root)
+                    }
+
+                    else -> {}
                 }
             }
         }
