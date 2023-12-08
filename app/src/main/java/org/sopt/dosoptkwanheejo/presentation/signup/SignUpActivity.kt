@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.lifecycle.ViewModelProvider
-import org.sopt.dosoptkwanheejo.DoSoptApp
 import org.sopt.dosoptkwanheejo.DoSoptApp.Companion.getApiHelperInstance
 import org.sopt.dosoptkwanheejo.R
 import org.sopt.dosoptkwanheejo.base.BaseActivity
@@ -20,6 +19,7 @@ import org.sopt.dosoptkwanheejo.util.showShortSnackBar
 import org.sopt.dosoptkwanheejo.util.showShortToastMessage
 import org.sopt.dosoptkwanheejo.util.toMBTI
 import org.sopt.dosoptkwanheejo.view.SoptEditView
+import java.util.regex.Pattern
 
 class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding::inflate) {
     private lateinit var signUpViewModel: SignUpViewModel
@@ -46,7 +46,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                signUpViewModel.idFlag.value = DoSoptApp.ID_REGEX.matcher(s).matches()
+                signUpViewModel.idFlag.value = ID_REGEX.matcher(s).matches()
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -58,7 +58,7 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                signUpViewModel.passwordFlag.value = DoSoptApp.PASSWORD_REGEX.matcher(s).matches()
+                signUpViewModel.passwordFlag.value = PASSWORD_REGEX.matcher(s).matches()
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -80,9 +80,9 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
 
     private fun isValidInformation(): Boolean =
         binding.soptEvId.getEditText().length in 6..10
-        && binding.soptEvPwd.getEditText().length in 8..12
-        && binding.soptEvNickname.getEditText().isNotEmpty()
-        && binding.soptEvMbti.getEditText().toMBTI() != MBTI.ERROR
+                && binding.soptEvPwd.getEditText().length in 8..12
+                && binding.soptEvNickname.getEditText().isNotEmpty()
+                && binding.soptEvMbti.getEditText().toMBTI() != MBTI.ERROR
 
     private fun observeData() {
         signUpViewModel.signUpResp.observe(this) {
@@ -123,5 +123,13 @@ class SignUpActivity : BaseActivity<ActivitySignUpBinding>(ActivitySignUpBinding
         } else {
             editView.setBackgroundTint(R.color.black)
         }
+    }
+
+    companion object {
+        private const val ID_PATTERN = "^[a-zA-Z0-9]{6,10}$"
+        private const val PASSWORD_PATTERN =
+            "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{6,12}$"
+        val ID_REGEX: Pattern = Pattern.compile(ID_PATTERN)
+        val PASSWORD_REGEX: Pattern = Pattern.compile(PASSWORD_PATTERN)
     }
 }
