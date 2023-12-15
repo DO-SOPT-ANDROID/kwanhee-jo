@@ -20,6 +20,7 @@ class DoSoptApp : Application() {
         private lateinit var userApiHelper: UserApiHelper
         private lateinit var naverApiHelper: NaverApiHelper
 
+
         @Synchronized
         private fun getSharedPreferencesInstance(context: Context): SharedPreferences {
             if (!::sharedPreferencesInstance.isInitialized) {

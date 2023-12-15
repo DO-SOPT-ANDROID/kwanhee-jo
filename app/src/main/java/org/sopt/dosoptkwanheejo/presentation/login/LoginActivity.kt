@@ -124,6 +124,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
                 is LoginResp -> {
                     successLogin()
                 }
+
                 is RespResult -> {
                     binding.root.showShortSnackBar(it.message)
                     hideKeyboard(binding.root)

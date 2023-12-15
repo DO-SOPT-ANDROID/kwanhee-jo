@@ -11,6 +11,9 @@ import org.sopt.dosoptkwanheejo.repository.AuthRepository
 class SignUpViewModel(
     private val authRepository: AuthRepository
 ) : ViewModel() {
+    val idFlag = MutableLiveData<Boolean>()
+    val passwordFlag = MutableLiveData<Boolean>()
+
     private val _signUpResp = MutableLiveData<SignUpResp>()
     val signUpResp: LiveData<SignUpResp> = _signUpResp
 
